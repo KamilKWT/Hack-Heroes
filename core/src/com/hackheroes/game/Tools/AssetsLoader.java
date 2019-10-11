@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class AssetsLoader {
 
-    public Map<String, Texture> textures = new HashMap<>();
+    private Map<String, Texture> textures = new HashMap<>();
 
     public static AssetsLoader loadAssets() {
         AssetsLoader assetsLoader = new AssetsLoader();

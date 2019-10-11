@@ -2,7 +2,7 @@ package com.hackheroes.game.Screens;
 
 import com.badlogic.gdx.Screen;
 
-public abstract class AbstractScreen implements Screen {
+abstract class AbstractScreen implements Screen {
 
     @Override
     public void show() {}

@@ -1,0 +1,66 @@
+package com.hackheroes.game.Tools;
+
+import com.badlogic.gdx.InputProcessor;
+import com.hackheroes.game.MainClass;
+
+public class InputController implements InputProcessor {
+
+    private MainClass game;
+
+    public InputController(MainClass game) {
+        this.game = game;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == 19) {
+            game.gameScreen.statusBar1.changeValue(35);
+            game.gameScreen.statusBar2.changeValue(35);
+            game.gameScreen.statusBar3.changeValue(35);
+            game.gameScreen.statusBar4.changeValue(35);
+
+        } else if (keycode == 20) {
+            game.gameScreen.statusBar1.changeValue(-35);
+            game.gameScreen.statusBar2.changeValue(-35);
+            game.gameScreen.statusBar3.changeValue(-35);
+            game.gameScreen.statusBar4.changeValue(-35);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+}
