@@ -28,7 +28,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1f, 0f, 0f, 1);
+        Gdx.gl.glClearColor(200f / 255f, 200f / 255f, 200f / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         statusBar1.render();
