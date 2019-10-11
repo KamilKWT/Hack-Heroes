@@ -24,7 +24,7 @@ public class StatusBar {
         this.value = value;
         startValue = value;
         targetValue = value;
-        border = (float) Math.ceil(0.05f * (width < height ? width : height));
+        border = (float) Math.ceil(0.05f * Math.min(width, height));
     }
 
     public void render() {
@@ -105,7 +105,7 @@ public class StatusBar {
         }
     }
 
-    public void changeValue(float amount) {
+    public void changeBy(float amount) {
         startValue = value;
 
         if (value + amount >= 0 && value + amount <= maxValue) {
