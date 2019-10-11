@@ -84,39 +84,20 @@ public class StatusBar {
     }
 
     public void setValue(float value) {
-        this.value = (value <= maxValue) ? value : maxValue;
-        startValue = (value <= maxValue) ? value : maxValue;
-        targetValue = (value <= maxValue) ? value : maxValue;
+        if (value < 0) value = 0;
+        else if (value > maxValue) value = maxValue;
 
-        if (value >= 0 && value <= maxValue) {
-            this.value = value;
-            startValue = value;
-            targetValue = value;
-
-        } else if (value < 0) {
-            this.value = 0;
-            startValue = 0;
-            targetValue = 0;
-
-        } else {
-            this.value = maxValue;
-            startValue = maxValue;
-            targetValue = maxValue;
-        }
+        this.value = value;
+        this.startValue = value;
+        this.targetValue = value;
     }
 
     public void changeBy(float amount) {
         startValue = value;
 
-        if (value + amount >= 0 && value + amount <= maxValue) {
-            targetValue = value + amount;
-
-        } else if (value + amount < 0) {
-            targetValue = 0;
-
-        } else {
-            targetValue = maxValue;
-        }
+        if (value + amount < 0) targetValue = 0;
+        else if (value + amount > maxValue) targetValue = maxValue;
+        else targetValue = value + amount;
     }
 
     public float getValue() {
