@@ -8,8 +8,8 @@ public class StatusBar {
 
     private MainClass game;
 
-    private int xPos, yPos, width, height;
     private boolean vertical;
+    private int xPos, yPos, width, height;
     private float maxValue, value, startValue, targetValue, border;
 
     public StatusBar(MainClass game, int xPos, int yPos, int width, int height, boolean vertical, float maxValue, float value) {
@@ -20,103 +20,121 @@ public class StatusBar {
         this.width = width;
         this.height = height;
         this.vertical = vertical;
+        this.border = (float) Math.ceil(0.1f * Math.min(width, height));
+
         this.maxValue = maxValue;
         this.value = value;
-        startValue = value;
-        targetValue = value;
-        border = (float) Math.ceil(0.05f * (width < height ? width : height));
+        this.startValue = value;
+        this.targetValue = value;
     }
 
     public void render() {
         game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
         game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
+        //Obwódka
         game.gameShapeRenderer.setColor(Color.DARK_GRAY);
         game.gameShapeRenderer.rect(xPos, yPos, width, height);
-
+        //Tło
         game.gameShapeRenderer.setColor(Color.GRAY);
         game.gameShapeRenderer.rect(xPos + border, yPos + border, width - 2 * border, height - 2 * border);
 
-        if (targetValue > value) {
-            value = (targetValue - value >= 1f) ? (value + 1f) : (targetValue);
-            startValue = (targetValue - value >= 1f) ? startValue : value;
-            targetValue = (targetValue - value >= 1f) ? targetValue : value;
-
-            game.gameShapeRenderer.setColor(Color.WHITE);
-            game.gameShapeRenderer.rect(xPos + border, yPos + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * (startValue / maxValue)),
-                    (vertical) ? ((height - 2 * border) * (startValue / maxValue)) : (height - 2 * border));
-
-            game.gameShapeRenderer.setColor(Color.GREEN);
-            game.gameShapeRenderer.rect(
-                    ((vertical) ? (xPos) : (xPos + ((width - 2 * border) * (startValue / maxValue)))) + border,
-                    ((vertical) ? (yPos + ((height - 2 * border) * (startValue / maxValue))) : (yPos)) + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * ((value - startValue) / maxValue)),
-                    (vertical) ? ((height - 2 * border) * ((value - startValue) / maxValue)) : (height - 2 * border)
-            );
-
-        } else if (targetValue < value) {
-            value = (value - targetValue >= 1f) ? (value - 1f) : (targetValue);
-            startValue = (value - targetValue >= 1f) ? startValue : value;
-            targetValue = (value - targetValue >= 1f) ? targetValue : value;
-
-            game.gameShapeRenderer.setColor(Color.WHITE);
-            game.gameShapeRenderer.rect(xPos + border, yPos + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * (startValue / maxValue)),
-                    (vertical) ? ((height - 2 * border) * (startValue / maxValue)) : (height - 2 * border));
-
-            game.gameShapeRenderer.setColor(Color.RED);
-            game.gameShapeRenderer.rect(
-                    ((vertical) ? (xPos) : ((xPos + ((width - 2 * border) * (startValue / maxValue))) - ((width - 2 * border) * ((startValue - value) / maxValue)))) + border,
-                    ((vertical) ? ((yPos + ((height - 2 * border) * (startValue / maxValue))) - ((height - 2 * border) * ((startValue - value) / maxValue))) : (yPos)) + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * ((startValue - value) / maxValue)),
-                    (vertical) ? ((height - 2 * border) * ((startValue - value) / maxValue)) : (height - 2 * border)
-            );
-
-        } else {
-            game.gameShapeRenderer.setColor(Color.WHITE);
-            game.gameShapeRenderer.rect(xPos + border, yPos + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * (value / maxValue)),
-                    (vertical) ? ((height - 2 * border) * (value / maxValue)) : (height - 2 * border));
-        }
-
+        this.drawStatusBar();
         game.gameShapeRenderer.end();
     }
 
-    public void setValue(float value) {
-        this.value = (value <= maxValue) ? value : maxValue;
-        startValue = (value <= maxValue) ? value : maxValue;
-        targetValue = (value <= maxValue) ? value : maxValue;
+    private class Rect {
+        public final float x, y, dx, dy;
 
-        if (value >= 0 && value <= maxValue) {
-            this.value = value;
-            startValue = value;
-            targetValue = value;
-
-        } else if (value < 0) {
-            this.value = 0;
-            startValue = 0;
-            targetValue = 0;
-
-        } else {
-            this.value = maxValue;
-            startValue = maxValue;
-            targetValue = maxValue;
+        public Rect(float x, float y, float dx, float dy) {
+            this.x = x;
+            this.y = y;
+            this.dx = dx;
+            this.dy = dy;
         }
     }
 
-    public void changeValue(float amount) {
-        startValue = value;
+    private void drawStatusBar() {
+        final ShapeRenderer sr = game.gameShapeRenderer;
+        final byte step = (this.targetValue > this.value) ? (byte) 1 : -1;
+        final Rect valueRect = getValueRect(step);
+        final Rect startingRect = getStartingRect();
 
-        if (value + amount >= 0 && value + amount <= maxValue) {
-            targetValue = value + amount;
-
-        } else if (value + amount < 0) {
-            targetValue = 0;
-
+        sr.setColor(Color.WHITE);
+        sr.rect(startingRect.x, startingRect.y, startingRect.dx, startingRect.dy);
+        if (this.targetValue == this.value) {
+            this.value = this.targetValue;
+            this.startValue = this.targetValue;
         } else {
-            targetValue = maxValue;
+            this.value += step;
+            if (step == 1) sr.setColor(Color.GREEN);
+            else sr.setColor(Color.RED);
+            sr.rect(valueRect.x, valueRect.y, valueRect.dx, valueRect.dy);
         }
+
+    }
+
+    // Zwraca prostokat uzywany do pokazywania ile ubylo lub przybylo do poczatkowej wartosci
+    private Rect getValueRect(final byte step) {
+        final float x, y, width, height;
+
+        if (step == 1) {
+            if (this.vertical) {
+                x = this.xPos + this.border;
+                y = this.yPos + ((this.height - 2 * this.border) * (this.startValue / this.maxValue)) + this.border;
+                width = this.width - 2 * this.border;
+                height = ((this.height - 2 * this.border) * (this.value - this.startValue) / this.maxValue);
+            } else {
+                x = (this.xPos + ((this.width - 2 * this.border) * (this.startValue / this.maxValue))) + this.border;
+                y = this.yPos + border;
+                width = ((this.width - 2 * border) * ((this.value - this.startValue) / this.maxValue));
+                height = this.height - 2 * this.border;
+            }
+        } else {
+            if (this.vertical) {
+                x = this.xPos + this.border;
+                y = (this.yPos + ((this.height - 2 * this.border) * (this.startValue / this.maxValue)) - ((this.height - 2 * this.border) * ((this.startValue - this.value) / this.maxValue))) + this.border;
+                width = this.width - 2 * this.border;
+                height = (this.height - 2 * this.border) * ((this.startValue - this.value) / this.maxValue);
+            } else {
+                x = ((this.xPos + ((this.width - 2 * this.border) * (this.startValue / this.maxValue))) - ((this.width - 2 * this.border) * ((this.startValue - this.value) / this.maxValue))) + this.border;
+                y = this.yPos + border;
+                width = ((this.width - 2 * border) * ((this.startValue - this.value) / this.maxValue));
+                height = this.height - 2 * this.border;
+            }
+        }
+        return new Rect(x, y, width, height);
+    }
+
+    // Zwraca bialy prostokat czyli aktualna wartosc przed zmiana
+    private Rect getStartingRect() {
+        final float x = this.xPos + this.border,
+                y = this.yPos + this.border,
+                width, height;
+
+        if (this.vertical) {
+            width = this.width - 2 * this.border;
+            height = (this.height - 2 * this.border) * (this.startValue / this.maxValue);
+        } else {
+            width = (this.width - 2 * this.border) * (this.startValue / this.maxValue);
+            height = this.height - 2 * this.border;
+        }
+        return new Rect(x, y, width, height);
+    }
+
+
+    public void setValue(float amount) {
+        if (amount < 0) amount = 0;
+        else if (amount > this.maxValue) amount = this.maxValue;
+
+        this.value = amount;
+        this.startValue = amount;
+        this.targetValue = amount;
+    }
+
+    public void addValue(float amount) {
+        if (this.value + amount < 0) amount -= this.value - Math.abs(amount);
+        else if (this.value + amount > this.maxValue) amount = this.maxValue - this.value;
+        this.targetValue = this.value + amount;
     }
 
     public float getValue() {
