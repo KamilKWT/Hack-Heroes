@@ -148,9 +148,10 @@ public class StatusBar {
     }
 
     public void addValue(float amount) {
-        if (this.value + amount < 0) amount -= this.value - Math.abs(amount);
-        else if (this.value + amount > this.maxValue) amount = this.maxValue - this.value;
-        this.targetValue = this.value + amount;
+        if (this.targetValue + amount < 0) amount -= this.targetValue - Math.abs(amount);
+        else if (this.targetValue + amount > this.maxValue)
+            amount = this.maxValue - this.targetValue;
+        this.targetValue += amount;
     }
 
     public float getValue() {

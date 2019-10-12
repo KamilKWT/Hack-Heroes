@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,50 +16,49 @@ import com.hackheroes.game.Tools.InputController;
 
 public class MainClass extends Game {
 
-	public static final int V_WIDTH = 720;
-	public static final int V_HEIGHT = 1280;
+    public static final int V_WIDTH = 720;
+    public static final int V_HEIGHT = 1280;
 
-	public AssetsLoader assetsLoader;
+    public AssetsLoader assetsLoader;
 
-	public OrthographicCamera gameCamera;
-	public Viewport gameViewport;
-	public SpriteBatch gameBatch;
-	public ShapeRenderer gameShapeRenderer;
-	public BitmapFont gameFont;
+    public OrthographicCamera gameCamera;
+    public Viewport gameViewport;
+    public SpriteBatch gameBatch;
+    public ShapeRenderer gameShapeRenderer;
+    public BitmapFont gameFont;
 
-	public GameScreen gameScreen;
+    public GameScreen gameScreen;
 
-	@Override
-	public void create () {
-		Gdx.input.setInputProcessor(new InputController(this));
-		assetsLoader = AssetsLoader.loadAssets();
+    @Override
+    public void create() {
+        Gdx.input.setInputProcessor(new InputController(this));
+        assetsLoader = AssetsLoader.loadAssets();
 
-		gameCamera = new OrthographicCamera();
-		gameCamera.setToOrtho(false, V_WIDTH, V_HEIGHT);
-		gameViewport = new FitViewport(V_WIDTH, V_HEIGHT, gameCamera);
-		gameBatch = new SpriteBatch();
-		gameShapeRenderer = new ShapeRenderer();
-		gameFont = new BitmapFont();
-		gameFont.setColor(Color.BLACK);
+        gameCamera = new OrthographicCamera();
+        gameCamera.setToOrtho(false, V_WIDTH, V_HEIGHT);
+        gameViewport = new FitViewport(V_WIDTH, V_HEIGHT, gameCamera);
+        gameBatch = new SpriteBatch();
+        gameShapeRenderer = new ShapeRenderer();
+        gameFont = new BitmapFont();
+        gameFont.setColor(Color.BLACK);
+        gameScreen = new GameScreen(this);
+        this.setScreen(gameScreen);
+    }
 
-		gameScreen = new GameScreen(this);
-		this.setScreen(gameScreen);
-	}
+    @Override
+    public void render() {
+        super.render();
+    }
 
-	@Override
-	public void render () {
-		super.render();
-	}
+    @Override
+    public void resize(int width, int height) {
+        gameViewport.update(width, height);
+    }
 
-	@Override
-	public void resize(int width, int height) {
-		gameViewport.update(width, height);
-	}
-	
-	@Override
-	public void dispose () {
-		gameBatch.dispose();
-		gameShapeRenderer.dispose();
-		gameFont.dispose();
-	}
+    @Override
+    public void dispose() {
+        gameBatch.dispose();
+        gameShapeRenderer.dispose();
+        gameFont.dispose();
+    }
 }

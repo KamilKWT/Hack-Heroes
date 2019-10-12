@@ -19,7 +19,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        tmpTexture = game.assetsLoader.findTexture("badlogic");
+        tmpTexture = new Texture(Gdx.files.internal("images/population.png"));
         statusBar1 = new StatusBar(game, 50, 400, 50, 200, true, 100, 0);
         statusBar2 = new StatusBar(game, 50, 700, 50, 200, false, 100, 0);
         statusBar3 = new StatusBar(game, 150, 400, 200, 50, true, 100, 0);
