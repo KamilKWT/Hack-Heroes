@@ -31,10 +31,10 @@ public class StatusBar {
     public void render() {
         game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
         game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        //Obwódka
+        //border
         game.gameShapeRenderer.setColor(Color.DARK_GRAY);
         game.gameShapeRenderer.rect(xPos, yPos, width, height);
-        //Tło
+        //bg
         game.gameShapeRenderer.setColor(Color.GRAY);
         game.gameShapeRenderer.rect(xPos + border, yPos + border, width - 2 * border, height - 2 * border);
 
@@ -55,13 +55,23 @@ public class StatusBar {
 
     private void drawStatusBar() {
         final ShapeRenderer sr = game.gameShapeRenderer;
-        final byte step = (this.targetValue > this.value) ? (byte) 1 : -1;
+        final byte step = (this.targetValue >= this.value) ? (byte) 1 : -1;
         final Rect valueRect = getValueRect(step);
         final Rect startingRect = getStartingRect();
 
+
         sr.setColor(Color.WHITE);
         sr.rect(startingRect.x, startingRect.y, startingRect.dx, startingRect.dy);
-        if (this.targetValue == this.value) {
+
+        // Ta linijka jest tutaj dlatego, ze byl blad i gdy wartosc schodzila
+        // to normalnie pojawial sie czerwony pasek, ale gdy juz dotarl do wartosci
+        // docelowej to przez chwile migal bialy pasek i zle to wygladalo.
+        if (step == -1) {
+            sr.setColor(Color.RED);
+            sr.rect(valueRect.x, valueRect.y, valueRect.dx, valueRect.dy);
+        }
+
+        if (Math.abs(this.targetValue - this.value) <= 1) {
             this.value = this.targetValue;
             this.startValue = this.targetValue;
         } else {
@@ -70,42 +80,48 @@ public class StatusBar {
             else sr.setColor(Color.RED);
             sr.rect(valueRect.x, valueRect.y, valueRect.dx, valueRect.dy);
         }
-
     }
 
-    // Zwraca prostokat uzywany do pokazywania ile ubylo lub przybylo do poczatkowej wartosci
+    // Returns rectangle used to show how much was added to the value.
     private Rect getValueRect(final byte step) {
         final float x, y, width, height;
+        final float
+                startRatio = this.startValue / this.maxValue,
+                vToS = this.value - this.startValue,// Distance from startValue to current value (green bar)
+                sToV = this.startValue - this.value,// Same as above, but for red bar
+                hB = this.height - 2 * this.border,// Height without borders
+                wB = this.width - 2 * this.border;// Width without borders
+
 
         if (step == 1) {
             if (this.vertical) {
                 x = this.xPos + this.border;
-                y = this.yPos + ((this.height - 2 * this.border) * (this.startValue / this.maxValue)) + this.border;
-                width = this.width - 2 * this.border;
-                height = ((this.height - 2 * this.border) * (this.value - this.startValue) / this.maxValue);
+                y = this.yPos + hB * startRatio + this.border;
+                width = wB;
+                height = hB * vToS / this.maxValue;
             } else {
-                x = (this.xPos + ((this.width - 2 * this.border) * (this.startValue / this.maxValue))) + this.border;
+                x = this.xPos + wB * startRatio + this.border;
                 y = this.yPos + border;
-                width = ((this.width - 2 * border) * ((this.value - this.startValue) / this.maxValue));
-                height = this.height - 2 * this.border;
+                width = wB * (vToS / this.maxValue);
+                height = hB;
             }
         } else {
             if (this.vertical) {
                 x = this.xPos + this.border;
-                y = (this.yPos + ((this.height - 2 * this.border) * (this.startValue / this.maxValue)) - ((this.height - 2 * this.border) * ((this.startValue - this.value) / this.maxValue))) + this.border;
-                width = this.width - 2 * this.border;
-                height = (this.height - 2 * this.border) * ((this.startValue - this.value) / this.maxValue);
+                y = this.yPos + this.border + hB * startRatio - hB * (sToV / this.maxValue);
+                width = wB;
+                height = hB * (sToV / this.maxValue);
             } else {
-                x = ((this.xPos + ((this.width - 2 * this.border) * (this.startValue / this.maxValue))) - ((this.width - 2 * this.border) * ((this.startValue - this.value) / this.maxValue))) + this.border;
+                x = this.xPos + this.border + wB * startRatio - wB * (sToV / this.maxValue);
                 y = this.yPos + border;
-                width = ((this.width - 2 * border) * ((this.startValue - this.value) / this.maxValue));
-                height = this.height - 2 * this.border;
+                width = (wB * (sToV / this.maxValue));
+                height = hB;
             }
         }
         return new Rect(x, y, width, height);
     }
 
-    // Zwraca bialy prostokat czyli aktualna wartosc przed zmiana
+    // Returns white rectangle indicating current value
     private Rect getStartingRect() {
         final float x = this.xPos + this.border,
                 y = this.yPos + this.border,
