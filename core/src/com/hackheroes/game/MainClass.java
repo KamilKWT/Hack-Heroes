@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -20,7 +19,6 @@ public class MainClass extends Game {
     public static final int V_HEIGHT = 1280;
 
     public AssetsLoader assetsLoader;
-
     public OrthographicCamera gameCamera;
     public Viewport gameViewport;
     public SpriteBatch gameBatch;

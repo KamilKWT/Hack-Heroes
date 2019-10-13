@@ -1,16 +1,21 @@
-package com.hackheroes.game.UI_Elements;
+package com.hackheroes.game.Components;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.hackheroes.game.MainClass;
 
-public class StatusBar {
+public class StatusBar extends Actor {
 
     private MainClass game;
 
     private boolean vertical;
     private int xPos, yPos, width, height;
     private float maxValue, value, startValue, targetValue, border;
+    private Texture icon;
+    private boolean isIconLoaded = false;
 
     public StatusBar(MainClass game, int xPos, int yPos, int width, int height, boolean vertical, float maxValue, float value) {
         this.game = game;
@@ -26,6 +31,13 @@ public class StatusBar {
         this.value = value;
         this.startValue = value;
         this.targetValue = value;
+    }
+
+    public StatusBar(MainClass game, int xPos, int yPos, int width, int height, boolean vertical, float maxValue, float value, String imageSrc) {
+        this(game, xPos, yPos, width, height, vertical, maxValue, value);
+        this.icon = new Texture(Gdx.files.internal("images/" + imageSrc));
+
+        isIconLoaded = true;
     }
 
     public void render() {
@@ -51,6 +63,11 @@ public class StatusBar {
             this.dx = dx;
             this.dy = dy;
         }
+    }
+
+    public void drawIcon() {
+        if (isIconLoaded)
+            game.gameBatch.draw(icon, xPos + border, yPos + border, width - 2 * border, width);
     }
 
     private void drawStatusBar() {

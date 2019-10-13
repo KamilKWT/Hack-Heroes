@@ -14,16 +14,10 @@ public class InputController implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == 19) {
-            game.gameScreen.statusBar1.addValue(35);
-            game.gameScreen.statusBar2.addValue(35);
-            game.gameScreen.statusBar3.addValue(35);
-            game.gameScreen.statusBar4.addValue(35);
+            game.gameScreen.changeBar("all", 25);
 
         } else if (keycode == 20) {
-            game.gameScreen.statusBar1.addValue(-35);
-            game.gameScreen.statusBar2.addValue(-35);
-            game.gameScreen.statusBar3.addValue(-35);
-            game.gameScreen.statusBar4.addValue(-35);
+            game.gameScreen.changeBar("all", -25);
         }
 
         return false;
