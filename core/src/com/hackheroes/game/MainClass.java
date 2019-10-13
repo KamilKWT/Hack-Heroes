@@ -2,16 +2,14 @@ package com.hackheroes.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.hackheroes.game.Screens.GameScreen;
 import com.hackheroes.game.Tools.AssetsLoader;
 import com.hackheroes.game.Tools.InputController;
+import com.hackheroes.game.Tools.MyShapeRenderer;
 
 public class MainClass extends Game {
 
@@ -23,8 +21,7 @@ public class MainClass extends Game {
 	public OrthographicCamera gameCamera;
 	public Viewport gameViewport;
 	public SpriteBatch gameBatch;
-	public ShapeRenderer gameShapeRenderer;
-	public BitmapFont gameFont;
+	public MyShapeRenderer gameShapeRenderer;
 
 	public GameScreen gameScreen;
 
@@ -37,9 +34,7 @@ public class MainClass extends Game {
 		gameCamera.setToOrtho(false, V_WIDTH, V_HEIGHT);
 		gameViewport = new FitViewport(V_WIDTH, V_HEIGHT, gameCamera);
 		gameBatch = new SpriteBatch();
-		gameShapeRenderer = new ShapeRenderer();
-		gameFont = new BitmapFont();
-		gameFont.setColor(Color.BLACK);
+		gameShapeRenderer = new MyShapeRenderer();
 
 		gameScreen = new GameScreen(this);
 		this.setScreen(gameScreen);
@@ -59,6 +54,5 @@ public class MainClass extends Game {
 	public void dispose () {
 		gameBatch.dispose();
 		gameShapeRenderer.dispose();
-		gameFont.dispose();
 	}
 }

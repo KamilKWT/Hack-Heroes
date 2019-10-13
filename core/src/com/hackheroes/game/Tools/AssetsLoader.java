@@ -20,6 +20,13 @@ public class AssetsLoader {
 
     private static void loadTextures(AssetsLoader assetsLoader) {
         assetsLoader.addTexture("badlogic", new Texture(Gdx.files.internal("images/badlogic.jpg")));
+        assetsLoader.addTexture("environment", new Texture(Gdx.files.internal("images/environment.png")));
+        assetsLoader.addTexture("food", new Texture(Gdx.files.internal("images/food.png")));
+        assetsLoader.addTexture("money", new Texture(Gdx.files.internal("images/money.png")));
+        assetsLoader.addTexture("population", new Texture(Gdx.files.internal("images/population.png")));
+        assetsLoader.addTexture("resources", new Texture(Gdx.files.internal("images/resources.png")));
+        assetsLoader.addTexture("leftBtn", new Texture(Gdx.files.internal("images/leftBtn.png")));
+        assetsLoader.addTexture("rightBtn", new Texture(Gdx.files.internal("images/rightBtn.png")));
     }
 
     private void addTexture(String name, Texture texture) {

@@ -1,4 +1,4 @@
-package com.hackheroes.game.UI_Elements;
+package com.hackheroes.game.Components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -24,7 +24,7 @@ public class StatusBar {
         this.value = value;
         startValue = value;
         targetValue = value;
-        border = (float) Math.ceil(0.05f * Math.min(width, height));
+        border = (float) Math.ceil(0.1f * Math.min(width, height));
     }
 
     public void render() {
@@ -81,6 +81,15 @@ public class StatusBar {
         }
 
         game.gameShapeRenderer.end();
+    }
+
+    public void changeDimensions(int xPos, int yPos, int width, int height, boolean vertical) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.width = width;
+        this.height = height;
+        this.vertical = vertical;
+        border = (float) Math.ceil(0.1f * Math.min(width, height));
     }
 
     public void setValue(float value) {
