@@ -18,6 +18,12 @@ public class Question {
         this.question = question;
     }
 
+    public Question(String question, Map<String, Short> accept, Map<String, Short> refuse) {
+        this(question);
+        this.accept = accept;
+        this.refuse = refuse;
+    }
+
     public void addOnAccept(String name, short amount) {
         if (!this.accept.containsKey(name)) this.accept.put(name, amount);
     }
@@ -66,3 +72,4 @@ public class Question {
         return this.question;
     }
 }
+
