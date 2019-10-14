@@ -1,6 +1,8 @@
 package com.hackheroes.game.Tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.hackheroes.game.Components.StatusBar;
 import com.hackheroes.game.MainClass;
 
 public class InputController implements InputProcessor {
@@ -14,12 +16,24 @@ public class InputController implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == 19) {
+<<<<<<< HEAD
             game.gameScreen.changeBar("all", 25);
 
         } else if (keycode == 20) {
             game.gameScreen.changeBar("all", -25);
         }
 
+=======
+            for (String key : game.gameScreen.indicatorsInfo.indicators.keySet()) {
+                Gdx.app.log("" + key, "" + game.gameScreen.indicatorsInfo.indicators.get(key).getValue());
+            }
+        } /*else if (keycode == 20) {
+            Gdx.app.log("down", "down");
+            for (StatusBar statusBar : game.gameScreen.indicatorsInfo.indicators.values()) {
+                statusBar.changeBy(-5);
+            }
+        }*/
+>>>>>>> Kwiatek10000-branch
         return false;
     }
 
@@ -35,6 +49,9 @@ public class InputController implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        int touchX = (int) (screenX * ((float) MainClass.V_WIDTH / (float) Gdx.graphics.getWidth()));
+        int touchY = (int) (MainClass.V_HEIGHT - (screenY * ((float) MainClass.V_HEIGHT / (float) Gdx.graphics.getHeight())));
+        game.gameScreen.isClicked(touchX, touchY);
         return false;
     }
 
