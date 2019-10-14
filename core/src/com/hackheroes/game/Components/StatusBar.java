@@ -24,7 +24,6 @@ public class StatusBar {
         this.value = value;
         startValue = value;
         targetValue = value;
-        //border = (float) Math.ceil(0.1f * Math.min(width, height));
         radius = Math.min(width, height) / 2;
         shadow = (float) Math.ceil(0.2f * Math.min(width, height));
     }
@@ -136,7 +135,6 @@ public class StatusBar {
         this.width = width;
         this.height = height;
         this.vertical = vertical;
-        //border = (float) Math.ceil(0.1f * Math.min(width, height));
         radius = Math.min(width, height) / 2;
         shadow = (int) Math.ceil(0.2f * Math.min(width, height));
     }

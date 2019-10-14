@@ -27,6 +27,12 @@ public class AssetsLoader {
         assetsLoader.addTexture("resources", new Texture(Gdx.files.internal("images/resources.png")));
         assetsLoader.addTexture("leftBtn", new Texture(Gdx.files.internal("images/leftBtn.png")));
         assetsLoader.addTexture("rightBtn", new Texture(Gdx.files.internal("images/rightBtn.png")));
+        assetsLoader.addTexture("dot-empty", new Texture(Gdx.files.internal("images/dot-empty.png")));
+        assetsLoader.addTexture("dot-full", new Texture(Gdx.files.internal("images/dot-full.png")));
+        assetsLoader.addTexture("minus-empty", new Texture(Gdx.files.internal("images/minus-empty.png")));
+        assetsLoader.addTexture("minus-full", new Texture(Gdx.files.internal("images/minus-full.png")));
+        assetsLoader.addTexture("plus-empty", new Texture(Gdx.files.internal("images/plus-empty.png")));
+        assetsLoader.addTexture("plus-full", new Texture(Gdx.files.internal("images/plus-full.png")));
     }
 
     private void addTexture(String name, Texture texture) {

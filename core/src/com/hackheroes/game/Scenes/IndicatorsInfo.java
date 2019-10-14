@@ -1,10 +1,8 @@
 package com.hackheroes.game.Scenes;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -59,19 +57,15 @@ public class IndicatorsInfo {
         }
 
         public void isClicked(int touchX, int touchY) {
-            Gdx.app.log("" + touchX, "" + touchY);
-            Gdx.app.log("" + x, "" + y);
-            if (distance(xPos + x, yPos + y, touchX, touchY) <= (width / 2)) {
+            if (Math.sqrt(Math.pow((touchX - (xPos + x)), 2) + Math.pow((touchY - (yPos + y)), 2)) <= (width / 2)) {
                 if (bigWindow && !hiding) {
                     hiding = true;
+                    bigWindow = false;
                 } else if (!bigWindow) {
                     setToBigWindow();
+                    showing = true;
                 }
             }
-        }
-
-        private int distance(int x1, int y1, int x2, int y2) {
-            return (int) Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
         }
     }
 
@@ -126,8 +120,8 @@ public class IndicatorsInfo {
             game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
             game.gameBatch.begin();
             game.gameBatch.draw(texture, xPos + x, yPos + y, 50, 50);
-            font.getData().setScale(1.0f);
-            font.draw(game.gameBatch, description, xPos + x, yPos + y + 150);
+            game.gameFont.getData().setScale(1.0f);
+            game.gameFont.draw(game.gameBatch, description, xPos + x, yPos + y + 150);
             game.gameBatch.end();
 
             statusBar.changeDimensions(xPos + x + 100, yPos + y, 300, 50, false);
@@ -138,12 +132,11 @@ public class IndicatorsInfo {
     private MainClass game;
 
     public Map<String, StatusBar> indicators = new HashMap<>();
-    public int money = 12345678;
-    private BitmapFont font;
+    public int money = 5000;
     private Stage stage;
     private Button button;
     private int xPos, yPos, width, height;
-    private boolean bigWindow, hiding = false;
+    public boolean bigWindow, hiding, showing = false;
 
     public IndicatorsInfo(MainClass game) {
         this.game = game;
@@ -152,9 +145,6 @@ public class IndicatorsInfo {
         indicators.put("food", new StatusBar(game, 100, 950, 20, 50, true, 100, 50));
         indicators.put("population", new StatusBar(game, 150, 950, 20, 50, true, 100, 50));
         indicators.put("resources", new StatusBar(game, 200, 950, 20, 50, true, 100, 50));
-
-        font = new BitmapFont(Gdx.files.internal("fonts/Arial.fnt"));
-        font.setColor(Color.BLACK);
 
         stage = new Stage(game.gameViewport);
 
@@ -169,11 +159,13 @@ public class IndicatorsInfo {
                 hiding = false;
                 setToSmallWindow();
             }
-        } else if (bigWindow) {
+        } else if (showing) {
             if (xPos < (MainClass.V_WIDTH - width) / 2) {
                 xPos += 500f * delta;
             } else {
                 xPos = (MainClass.V_WIDTH - width) / 2;
+                showing = false;
+                bigWindow = true;
             }
         }
 
@@ -192,20 +184,18 @@ public class IndicatorsInfo {
         game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
         game.gameBatch.begin();
         game.gameBatch.draw(game.assetsLoader.findTexture("money"), 395, 1220, 50, 50);
-        font.getData().setScale(0.75f);
-        font.draw(game.gameBatch, "" + money, 490, 1265);
+        game.gameFont.getData().setScale(0.75f);
+        game.gameFont.draw(game.gameBatch, "" + money, 490, 1265);
         game.gameBatch.end();
 
         stage.draw();
     }
 
     public void dispose() {
-        font.dispose();
         stage.dispose();
     }
 
     private void setToSmallWindow() {
-        bigWindow = false;
         width = 90;
         height = 340;
         xPos = -10;
@@ -222,7 +212,6 @@ public class IndicatorsInfo {
     }
 
     private void setToBigWindow() {
-        bigWindow = true;
         width = 500;
         height = 850;
         xPos = -510;

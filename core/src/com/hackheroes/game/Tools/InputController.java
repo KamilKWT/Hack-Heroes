@@ -16,16 +16,15 @@ public class InputController implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == 19) {
-            Gdx.app.log("up", "up");
-            for (StatusBar statusBar : game.gameScreen.indicatorsInfo.indicators.values()) {
-                statusBar.changeBy(5);
+            for (String key : game.gameScreen.indicatorsInfo.indicators.keySet()) {
+                Gdx.app.log("" + key, "" + game.gameScreen.indicatorsInfo.indicators.get(key).getValue());
             }
-        } else if (keycode == 20) {
+        } /*else if (keycode == 20) {
             Gdx.app.log("down", "down");
             for (StatusBar statusBar : game.gameScreen.indicatorsInfo.indicators.values()) {
                 statusBar.changeBy(-5);
             }
-        }
+        }*/
         return false;
     }
 
