@@ -1,7 +1,5 @@
 package com.hackheroes.game.Components;
 
-import com.sun.org.apache.xpath.internal.operations.String;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +20,22 @@ public class Question {
         this(question);
         this.accept = accept;
         this.refuse = refuse;
+    }
+
+    public Question(final String question, final short populationA, final short environmentA, final short foodA, final short resourcesA, final short moneyA, final short populationR, final short environmentR, final short foodR, final short resourcesR, final short moneyR) {
+        this(question, new HashMap<String, Short>() {{
+            put("population", populationA);
+            put("environment", environmentA);
+            put("food", foodA);
+            put("resources", resourcesA);
+            put("money", moneyA);
+        }}, new HashMap<String, Short>() {{
+            put("population", populationR);
+            put("environment", environmentR);
+            put("food", foodR);
+            put("resources", resourcesR);
+            put("money", moneyR);
+        }});
     }
 
     public void addOnAccept(String name, short amount) {
