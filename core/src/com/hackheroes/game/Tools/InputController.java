@@ -2,6 +2,7 @@ package com.hackheroes.game.Tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.hackheroes.game.Components.StatusBar;
 import com.hackheroes.game.MainClass;
 
 public class InputController implements InputProcessor {
@@ -14,6 +15,17 @@ public class InputController implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == 19) {
+            Gdx.app.log("up", "up");
+            for (StatusBar statusBar : game.gameScreen.indicatorsInfo.indicators.values()) {
+                statusBar.changeBy(5);
+            }
+        } else if (keycode == 20) {
+            Gdx.app.log("down", "down");
+            for (StatusBar statusBar : game.gameScreen.indicatorsInfo.indicators.values()) {
+                statusBar.changeBy(-5);
+            }
+        }
         return false;
     }
 

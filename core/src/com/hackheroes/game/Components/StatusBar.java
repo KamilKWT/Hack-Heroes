@@ -10,7 +10,7 @@ public class StatusBar {
 
     private int xPos, yPos, width, height;
     private boolean vertical;
-    private float maxValue, value, startValue, targetValue, border;
+    private float maxValue, value, startValue, targetValue, radius, shadow;
 
     public StatusBar(MainClass game, int xPos, int yPos, int width, int height, boolean vertical, float maxValue, float value) {
         this.game = game;
@@ -24,7 +24,9 @@ public class StatusBar {
         this.value = value;
         startValue = value;
         targetValue = value;
-        border = (float) Math.ceil(0.1f * Math.min(width, height));
+        //border = (float) Math.ceil(0.1f * Math.min(width, height));
+        radius = Math.min(width, height) / 2;
+        shadow = (float) Math.ceil(0.2f * Math.min(width, height));
     }
 
     public void render() {
@@ -32,52 +34,97 @@ public class StatusBar {
         game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         game.gameShapeRenderer.setColor(Color.DARK_GRAY);
-        game.gameShapeRenderer.rect(xPos, yPos, width, height);
+        game.gameShapeRenderer.roundRect(xPos, yPos, width, height, radius);
 
-        game.gameShapeRenderer.setColor(Color.GRAY);
-        game.gameShapeRenderer.rect(xPos + border, yPos + border, width - 2 * border, height - 2 * border);
+        if (vertical) {
+            game.gameShapeRenderer.setColor(Color.GRAY);
+            game.gameShapeRenderer.roundRect(xPos, yPos, width - shadow, height, (width - shadow) / 2);
 
-        if (targetValue > value) {
-            value = (targetValue - value >= 1f) ? (value + 1f) : (targetValue);
-            startValue = (targetValue - value >= 1f) ? startValue : value;
-            targetValue = (targetValue - value >= 1f) ? targetValue : value;
+            if (targetValue > value) {
+                value = (targetValue - value >= 1f) ? (value + 1f) : (targetValue);
+                startValue = (targetValue - value >= 1f) ? startValue : value;
+                targetValue = (targetValue - value >= 1f) ? targetValue : value;
 
-            game.gameShapeRenderer.setColor(Color.WHITE);
-            game.gameShapeRenderer.rect(xPos + border, yPos + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * (startValue / maxValue)),
-                    (vertical) ? ((height - 2 * border) * (startValue / maxValue)) : (height - 2 * border));
+                game.gameShapeRenderer.setColor(new Color(0x008000ff));
+                game.gameShapeRenderer.roundRect(xPos, yPos, width, height * (value / maxValue), radius);
+                game.gameShapeRenderer.setColor(Color.GREEN);
+                game.gameShapeRenderer.roundRect(xPos, yPos, width - shadow, height * (value / maxValue), (width - shadow) / 2);
 
-            game.gameShapeRenderer.setColor(Color.GREEN);
-            game.gameShapeRenderer.rect(
-                    ((vertical) ? (xPos) : (xPos + ((width - 2 * border) * (startValue / maxValue)))) + border,
-                    ((vertical) ? (yPos + ((height - 2 * border) * (startValue / maxValue))) : (yPos)) + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * ((value - startValue) / maxValue)),
-                    (vertical) ? ((height - 2 * border) * ((value - startValue) / maxValue)) : (height - 2 * border)
-            );
+                if (height * (startValue / maxValue) > 2 * radius) {
+                    game.gameShapeRenderer.setColor(Color.LIGHT_GRAY);
+                    game.gameShapeRenderer.roundRect(xPos, yPos, width, height * (startValue / maxValue), radius);
+                    game.gameShapeRenderer.setColor(Color.WHITE);
+                    game.gameShapeRenderer.roundRect(xPos, yPos, width - shadow, height * (startValue / maxValue), (width - shadow) / 2);
+                }
 
-        } else if (targetValue < value) {
-            value = (value - targetValue >= 1f) ? (value - 1f) : (targetValue);
-            startValue = (value - targetValue >= 1f) ? startValue : value;
-            targetValue = (value - targetValue >= 1f) ? targetValue : value;
+            } else if (targetValue < value) {
+                value = (value - targetValue >= 1f) ? (value - 1f) : (targetValue);
+                startValue = (value - targetValue >= 1f) ? startValue : value;
+                targetValue = (value - targetValue >= 1f) ? targetValue : value;
 
-            game.gameShapeRenderer.setColor(Color.WHITE);
-            game.gameShapeRenderer.rect(xPos + border, yPos + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * (startValue / maxValue)),
-                    (vertical) ? ((height - 2 * border) * (startValue / maxValue)) : (height - 2 * border));
+                game.gameShapeRenderer.setColor(new Color(0x800000ff));
+                game.gameShapeRenderer.roundRect(xPos, yPos, width, height * (startValue / maxValue), radius);
+                game.gameShapeRenderer.setColor(Color.RED);
+                game.gameShapeRenderer.roundRect(xPos, yPos, width - shadow, height * (startValue / maxValue), (width - shadow) / 2);
 
-            game.gameShapeRenderer.setColor(Color.RED);
-            game.gameShapeRenderer.rect(
-                    ((vertical) ? (xPos) : ((xPos + ((width - 2 * border) * (startValue / maxValue))) - ((width - 2 * border) * ((startValue - value) / maxValue)))) + border,
-                    ((vertical) ? ((yPos + ((height - 2 * border) * (startValue / maxValue))) - ((height - 2 * border) * ((startValue - value) / maxValue))) : (yPos)) + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * ((startValue - value) / maxValue)),
-                    (vertical) ? ((height - 2 * border) * ((startValue - value) / maxValue)) : (height - 2 * border)
-            );
+                if (height * (value / maxValue) > 2 * radius) {
+                    game.gameShapeRenderer.setColor(Color.LIGHT_GRAY);
+                    game.gameShapeRenderer.roundRect(xPos, yPos, width, height * (value / maxValue), radius);
+                    game.gameShapeRenderer.setColor(Color.WHITE);
+                    game.gameShapeRenderer.roundRect(xPos, yPos, width - shadow, height * (value / maxValue), (width - shadow) / 2);
+                }
+
+            } else {
+                game.gameShapeRenderer.setColor(Color.LIGHT_GRAY);
+                game.gameShapeRenderer.roundRect(xPos, yPos, width, height * (value / maxValue), radius);
+                game.gameShapeRenderer.setColor(Color.WHITE);
+                game.gameShapeRenderer.roundRect(xPos, yPos, width - shadow, height * (value / maxValue), (width - shadow) / 2);
+            }
 
         } else {
-            game.gameShapeRenderer.setColor(Color.WHITE);
-            game.gameShapeRenderer.rect(xPos + border, yPos + border,
-                    (vertical) ? (width - 2 * border) : ((width - 2 * border) * (value / maxValue)),
-                    (vertical) ? ((height - 2 * border) * (value / maxValue)) : (height - 2 * border));
+            game.gameShapeRenderer.setColor(Color.GRAY);
+            game.gameShapeRenderer.roundRect(xPos, yPos + shadow, width, height - shadow, (height - shadow) / 2);
+
+            if (targetValue > value) {
+                value = (targetValue - value >= 1f) ? (value + 1f) : (targetValue);
+                startValue = (targetValue - value >= 1f) ? startValue : value;
+                targetValue = (targetValue - value >= 1f) ? targetValue : value;
+
+                game.gameShapeRenderer.setColor(new Color(0x008000ff));
+                game.gameShapeRenderer.roundRect(xPos, yPos, width * (value / maxValue), height, radius);
+                game.gameShapeRenderer.setColor(Color.GREEN);
+                game.gameShapeRenderer.roundRect(xPos, yPos + shadow, width * (value / maxValue), height -shadow, (height - shadow) / 2);
+
+                if (width * (startValue / maxValue) > 2 * radius) {
+                    game.gameShapeRenderer.setColor(Color.LIGHT_GRAY);
+                    game.gameShapeRenderer.roundRect(xPos, yPos, width * (startValue / maxValue), height, radius);
+                    game.gameShapeRenderer.setColor(Color.WHITE);
+                    game.gameShapeRenderer.roundRect(xPos, yPos + shadow, width * (startValue / maxValue), height - shadow, (height - shadow) / 2);
+                }
+
+            } else if (targetValue < value) {
+                value = (value - targetValue >= 1f) ? (value - 1f) : (targetValue);
+                startValue = (value - targetValue >= 1f) ? startValue : value;
+                targetValue = (value - targetValue >= 1f) ? targetValue : value;
+
+                game.gameShapeRenderer.setColor(new Color(0x800000ff));
+                game.gameShapeRenderer.roundRect(xPos, yPos, width * (startValue / maxValue), height, radius);
+                game.gameShapeRenderer.setColor(Color.RED);
+                game.gameShapeRenderer.roundRect(xPos, yPos + shadow, width * (startValue / maxValue), height - shadow, (height - shadow) / 2);
+
+                if (width * (value / maxValue) > 2 * radius) {
+                    game.gameShapeRenderer.setColor(Color.LIGHT_GRAY);
+                    game.gameShapeRenderer.roundRect(xPos, yPos, width * (value / maxValue), height, radius);
+                    game.gameShapeRenderer.setColor(Color.WHITE);
+                    game.gameShapeRenderer.roundRect(xPos, yPos + shadow, width * (value / maxValue), height -shadow, (height - shadow) / 2);
+                }
+
+            } else {
+                game.gameShapeRenderer.setColor(Color.LIGHT_GRAY);
+                game.gameShapeRenderer.roundRect(xPos, yPos, width * (value / maxValue), height, radius);
+                game.gameShapeRenderer.setColor(Color.WHITE);
+                game.gameShapeRenderer.roundRect(xPos, yPos + shadow, width * (value / maxValue), height - shadow, (height - shadow) / 2);
+            }
         }
 
         game.gameShapeRenderer.end();
@@ -89,7 +136,9 @@ public class StatusBar {
         this.width = width;
         this.height = height;
         this.vertical = vertical;
-        border = (float) Math.ceil(0.1f * Math.min(width, height));
+        //border = (float) Math.ceil(0.1f * Math.min(width, height));
+        radius = Math.min(width, height) / 2;
+        shadow = (int) Math.ceil(0.2f * Math.min(width, height));
     }
 
     public void setValue(float value) {
@@ -104,9 +153,9 @@ public class StatusBar {
     public void changeBy(float amount) {
         startValue = value;
 
-        if (value + amount < 0) targetValue = 0;
-        else if (value + amount > maxValue) targetValue = maxValue;
-        else targetValue = value + amount;
+        if (targetValue + amount < 0) targetValue = 0;
+        else if (targetValue + amount > maxValue) targetValue = maxValue;
+        else targetValue += amount;
     }
 
     public float getValue() {

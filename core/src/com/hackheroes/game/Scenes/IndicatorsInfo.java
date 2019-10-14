@@ -11,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.hackheroes.game.Components.StatusBar;
 import com.hackheroes.game.MainClass;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class IndicatorsInfo {
 
     private class Background extends Actor {
@@ -89,10 +92,10 @@ public class IndicatorsInfo {
         public void draw(Batch batch, float delta) {
             game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
             game.gameBatch.begin();
-            game.gameBatch.draw(texture, xPos + x, yPos + y + 5, 30, 30);
+            game.gameBatch.draw(texture, xPos + x, yPos + y + 15, 30, 30);
             game.gameBatch.end();
 
-            statusBar.changeDimensions(xPos + x + 40, yPos + y, 20, 40, true);
+            statusBar.changeDimensions(xPos + x + 40, yPos + y, 20, 60, true);
             statusBar.render();
         }
     }
@@ -123,6 +126,7 @@ public class IndicatorsInfo {
             game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
             game.gameBatch.begin();
             game.gameBatch.draw(texture, xPos + x, yPos + y, 50, 50);
+            font.getData().setScale(1.0f);
             font.draw(game.gameBatch, description, xPos + x, yPos + y + 150);
             game.gameBatch.end();
 
@@ -133,7 +137,8 @@ public class IndicatorsInfo {
 
     private MainClass game;
 
-    public StatusBar environmentIndicator, foodIndicator, populationIndicator, resourcesIndicator;
+    public Map<String, StatusBar> indicators = new HashMap<>();
+    public int money = 12345678;
     private BitmapFont font;
     private Stage stage;
     private Button button;
@@ -143,20 +148,15 @@ public class IndicatorsInfo {
     public IndicatorsInfo(MainClass game) {
         this.game = game;
 
-        environmentIndicator = new StatusBar(game, 50, 950, 20, 50, true, 100, 0);
-        foodIndicator = new StatusBar(game, 100, 950, 20, 50, true, 100, 0);
-        populationIndicator = new StatusBar(game, 150, 950, 20, 50, true, 100, 0);
-        resourcesIndicator = new StatusBar(game, 200, 950, 20, 50, true, 100, 0);
+        indicators.put("environment", new StatusBar(game, 50, 950, 20, 50, true, 100, 50));
+        indicators.put("food", new StatusBar(game, 100, 950, 20, 50, true, 100, 50));
+        indicators.put("population", new StatusBar(game, 150, 950, 20, 50, true, 100, 50));
+        indicators.put("resources", new StatusBar(game, 200, 950, 20, 50, true, 100, 50));
 
         font = new BitmapFont(Gdx.files.internal("fonts/Arial.fnt"));
         font.setColor(Color.BLACK);
 
         stage = new Stage(game.gameViewport);
-
-        environmentIndicator.changeBy(100);
-        foodIndicator.changeBy(100);
-        populationIndicator.changeBy(100);
-        resourcesIndicator.changeBy(100);
 
         setToSmallWindow();
     }
@@ -177,6 +177,25 @@ public class IndicatorsInfo {
             }
         }
 
+        game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
+        game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        game.gameShapeRenderer.setColor(Color.BROWN);
+        game.gameShapeRenderer.rect(420, 1210, 300, 70);
+        game.gameShapeRenderer.setColor(Color.GOLD);
+        game.gameShapeRenderer.rect(430, 1220, 300, 60);
+        game.gameShapeRenderer.setColor(Color.BROWN);
+        game.gameShapeRenderer.circle(420, 1245, 55);
+        game.gameShapeRenderer.setColor(Color.GOLD);
+        game.gameShapeRenderer.circle(420, 1245, 45);
+        game.gameShapeRenderer.end();
+
+        game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
+        game.gameBatch.begin();
+        game.gameBatch.draw(game.assetsLoader.findTexture("money"), 395, 1220, 50, 50);
+        font.getData().setScale(0.75f);
+        font.draw(game.gameBatch, "" + money, 490, 1265);
+        game.gameBatch.end();
+
         stage.draw();
     }
 
@@ -188,7 +207,7 @@ public class IndicatorsInfo {
     private void setToSmallWindow() {
         bigWindow = false;
         width = 90;
-        height = 260;
+        height = 340;
         xPos = -10;
         yPos = (MainClass.V_HEIGHT - height) / 2;
 
@@ -196,10 +215,10 @@ public class IndicatorsInfo {
         button = new Button(50, height + 40, 80, 80, game.assetsLoader.findTexture("rightBtn"));
         stage.addActor(button);
         stage.addActor(new Background(width, height));
-        stage.addActor(new SmallIndicatorLabel(20, 200, game.assetsLoader.findTexture("environment"), environmentIndicator));
-        stage.addActor(new SmallIndicatorLabel(20, 140, game.assetsLoader.findTexture("food"), foodIndicator));
-        stage.addActor(new SmallIndicatorLabel(20, 80, game.assetsLoader.findTexture("population"), populationIndicator));
-        stage.addActor(new SmallIndicatorLabel(20, 20, game.assetsLoader.findTexture("resources"), resourcesIndicator));
+        stage.addActor(new SmallIndicatorLabel(20, 260, game.assetsLoader.findTexture("environment"), indicators.get("environment")));
+        stage.addActor(new SmallIndicatorLabel(20, 180, game.assetsLoader.findTexture("food"), indicators.get("food")));
+        stage.addActor(new SmallIndicatorLabel(20, 100, game.assetsLoader.findTexture("population"), indicators.get("population")));
+        stage.addActor(new SmallIndicatorLabel(20, 20, game.assetsLoader.findTexture("resources"), indicators.get("resources")));
     }
 
     private void setToBigWindow() {
@@ -213,10 +232,10 @@ public class IndicatorsInfo {
         button = new Button(-40, height / 2, 80, 80, game.assetsLoader.findTexture("leftBtn"));
         stage.addActor(button);
         stage.addActor(new Background(width, height));
-        stage.addActor(new BigIndicatorLabel(50, 650, game.assetsLoader.findTexture("environment"), environmentIndicator, "Środowisko"));
-        stage.addActor(new BigIndicatorLabel(50, 450, game.assetsLoader.findTexture("food"), foodIndicator, "Pożywienie"));
-        stage.addActor(new BigIndicatorLabel(50, 250, game.assetsLoader.findTexture("population"), populationIndicator, "Populacja"));
-        stage.addActor(new BigIndicatorLabel(50, 50, game.assetsLoader.findTexture("resources"), resourcesIndicator, "Surowce"));
+        stage.addActor(new BigIndicatorLabel(50, 650, game.assetsLoader.findTexture("environment"), indicators.get("environment"), "Środowisko"));
+        stage.addActor(new BigIndicatorLabel(50, 450, game.assetsLoader.findTexture("food"), indicators.get("food"), "Pożywienie"));
+        stage.addActor(new BigIndicatorLabel(50, 250, game.assetsLoader.findTexture("population"), indicators.get("population"), "Populacja"));
+        stage.addActor(new BigIndicatorLabel(50, 50, game.assetsLoader.findTexture("resources"), indicators.get("resources"), "Surowce"));
     }
 
     public void isClicked(int touchX, int touchY) {

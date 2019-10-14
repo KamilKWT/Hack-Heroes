@@ -9,7 +9,7 @@ public class GameScreen extends AbstractScreen {
 
     private MainClass game;
 
-    private IndicatorsInfo indicatorsInfo;
+    public IndicatorsInfo indicatorsInfo;
 
     public GameScreen(MainClass game) {
         this.game = game;
