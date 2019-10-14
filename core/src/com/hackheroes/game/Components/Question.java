@@ -1,7 +1,7 @@
 package com.hackheroes.game.Components;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Blackbird on 10/13/2019.
@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class Question {
     private String question;
-    private Map<String, Short> accept = new HashMap<>();
-    private Map<String, Short> refuse = new HashMap<>();
+    private Map<String, Short> accept = new TreeMap<>();
+    private Map<String, Short> refuse = new TreeMap<>();
 
     public Question(String question) {
         this.question = question;
@@ -23,13 +23,13 @@ public class Question {
     }
 
     public Question(final String question, final short populationA, final short environmentA, final short foodA, final short resourcesA, final short moneyA, final short populationR, final short environmentR, final short foodR, final short resourcesR, final short moneyR) {
-        this(question, new HashMap<String, Short>() {{
+        this(question, new TreeMap<String, Short>() {{
             put("population", populationA);
             put("environment", environmentA);
             put("food", foodA);
             put("resources", resourcesA);
             put("money", moneyA);
-        }}, new HashMap<String, Short>() {{
+        }}, new TreeMap<String, Short>() {{
             put("population", populationR);
             put("environment", environmentR);
             put("food", foodR);
@@ -73,7 +73,7 @@ public class Question {
     }
 
     public short getOnAccept(String key) {
-        if (accept.containsKey(key)) return accept.get(key);
+        if (this.accept.containsKey(key)) return this.accept.get(key);
         return 0;
     }
 
