@@ -16,14 +16,6 @@ public class InputController implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == 19) {
-<<<<<<< HEAD
-            game.gameScreen.changeBar("all", 25);
-
-        } else if (keycode == 20) {
-            game.gameScreen.changeBar("all", -25);
-        }
-
-=======
             for (String key : game.gameScreen.indicatorsInfo.indicators.keySet()) {
                 Gdx.app.log("" + key, "" + game.gameScreen.indicatorsInfo.indicators.get(key).getValue());
             }
@@ -33,7 +25,6 @@ public class InputController implements InputProcessor {
                 statusBar.changeBy(-5);
             }
         }*/
->>>>>>> Kwiatek10000-branch
         return false;
     }
 
