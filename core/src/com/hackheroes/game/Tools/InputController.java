@@ -2,7 +2,6 @@ package com.hackheroes.game.Tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.hackheroes.game.Components.StatusBar;
 import com.hackheroes.game.MainClass;
 
 public class InputController implements InputProcessor {
