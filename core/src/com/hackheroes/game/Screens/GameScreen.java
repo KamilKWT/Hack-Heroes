@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.hackheroes.game.Components.Question;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Scenes.IndicatorsInfo;
+import com.hackheroes.game.Tools.QuestionLoader;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class GameScreen extends AbstractScreen {
 
@@ -35,7 +35,7 @@ public class GameScreen extends AbstractScreen {
 
         private int x, y, width, height;
         private String label;
-        private Map<String, Short> effects;
+        private Map<String, Integer> effects;
 
         private AnswerField(int x, int y, int width, int height, String label) {
             this.x = x;
@@ -45,7 +45,7 @@ public class GameScreen extends AbstractScreen {
             this.label = label;
         }
 
-        void render(Map<String, Short> effects) {
+        void render(Map<String, Integer> effects) {
             this.effects = effects;
 
             game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
@@ -63,10 +63,9 @@ public class GameScreen extends AbstractScreen {
 
             int i = 0;
             for (String key : effects.keySet()) {
-                if (!key.equals("money")) {
-                    drawEffect((y + height - 140) - (i * 100), key);
-                    i++;
-                }
+                if (key.equals("money")) continue;
+                drawEffect((y + height - 140) - (i * 100), key);
+                i++;
             }
             game.gameBatch.end();
         }
@@ -132,22 +131,23 @@ public class GameScreen extends AbstractScreen {
     private QuestionField questionField;
     private AnswerField acceptField, refuseField;
     public IndicatorsInfo indicatorsInfo;
-
-    private String question = "Bardzo długi tekst, który nie zmieści się w jednej linijce, więc będzie musiał być rozbity na kilka linijek. Jednakże w całym polu tekstowym powinien się zmieścić.";
-    private Map<String, Short> accept = new TreeMap<String, Short>() {{
-        put("environment", (short) 10);
-        put("food", (short) 15);
-        put("population", (short) -20);
-        put("resources", (short) -15);
-        put("money", (short) 2150);
+    private final QuestionLoader ql = new QuestionLoader();
+    private final Question q = ql.getQuestion();
+//private String question = "Bardzo długi tekst, który nie zmieści się w jednej linijce, więc będzie musiał być rozbity na kilka linijek. Jednakże w całym polu tekstowym powinien się zmieścić.";
+    /*private Map<String, Integer> accept = new TreeMap<String, Integer>() {{
+        put("environment", 10);
+        put("food", 15);
+        put("population", -20);
+        put("resources", -15);
+        put("money", 2150);
     }};
-    private Map<String, Short> refuse = new TreeMap<String, Short>() {{
-        put("environment", (short) 20);
-        put("food", (short) -5);
-        put("population", (short) -10);
-        put("resources", (short) +35);
-        put("money", (short) -1250);
-    }};
+    private Map<String, Integer> refuse = new TreeMap<String, Integer>() {{
+        put("environment", 20);
+        put("food", -5);
+        put("population", -10);
+        put("resources", +35);
+        put("money", -1250);
+    }};*/
 
     public GameScreen(MainClass game) {
         this.game = game;
@@ -167,9 +167,9 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!indicatorsInfo.bigWindow) {
-            questionField.render(question);
-            acceptField.render(accept);
-            refuseField.render(refuse);
+            questionField.render(q.getQuestion());
+            acceptField.render(q.getOnAccept());
+            refuseField.render(q.getOnRefuse());
         }
 
         indicatorsInfo.render(delta);

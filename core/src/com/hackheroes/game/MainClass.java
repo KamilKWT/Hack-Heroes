@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.hackheroes.game.Screens.GameScreen;
@@ -40,7 +41,7 @@ public class MainClass extends Game {
 
 		gameCamera = new OrthographicCamera();
 		gameCamera.setToOrtho(false, V_WIDTH, V_HEIGHT);
-		gameViewport = new FitViewport(V_WIDTH, V_HEIGHT, gameCamera);
+		gameViewport = new ExtendViewport(V_WIDTH, V_HEIGHT, gameCamera);
 		gameBatch = new SpriteBatch();
 		gameShapeRenderer = new MyShapeRenderer();
 		gameFont = new BitmapFont(Gdx.files.internal("fonts/Arial.fnt"));

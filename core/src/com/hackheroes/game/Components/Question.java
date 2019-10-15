@@ -9,27 +9,27 @@ import java.util.TreeMap;
 
 public class Question {
     private String question;
-    private Map<String, Short> accept = new TreeMap<>();
-    private Map<String, Short> refuse = new TreeMap<>();
+    private Map<String, Integer> accept = new TreeMap<>();
+    private Map<String, Integer> refuse = new TreeMap<>();
 
     public Question(String question) {
         this.question = question;
     }
 
-    public Question(String question, Map<String, Short> accept, Map<String, Short> refuse) {
+    public Question(String question, Map<String, Integer> accept, Map<String, Integer> refuse) {
         this(question);
         this.accept = accept;
         this.refuse = refuse;
     }
 
-    public Question(final String question, final short populationA, final short environmentA, final short foodA, final short resourcesA, final short moneyA, final short populationR, final short environmentR, final short foodR, final short resourcesR, final short moneyR) {
-        this(question, new TreeMap<String, Short>() {{
+    public Question(final String question, final int populationA, final int environmentA, final int foodA, final int resourcesA, final int moneyA, final int populationR, final int environmentR, final int foodR, final int resourcesR, final int moneyR) {
+        this(question, new TreeMap<String, Integer>() {{
             put("population", populationA);
             put("environment", environmentA);
             put("food", foodA);
             put("resources", resourcesA);
             put("money", moneyA);
-        }}, new TreeMap<String, Short>() {{
+        }}, new TreeMap<String, Integer>() {{
             put("population", populationR);
             put("environment", environmentR);
             put("food", foodR);
@@ -38,15 +38,15 @@ public class Question {
         }});
     }
 
-    public void addOnAccept(String name, short amount) {
+    public void addOnAccept(String name, int amount) {
         if (!this.accept.containsKey(name)) this.accept.put(name, amount);
     }
 
-    public void addOnRefuse(String name, short amount) {
+    public void addOnRefuse(String name, int amount) {
         if (!this.refuse.containsKey(name)) this.refuse.put(name, amount);
     }
 
-    public void addOnAccept(String[] names, short[] amounts) {
+    public void addOnAccept(String[] names, int[] amounts) {
         if (names.length != amounts.length) return;
 
         for (int i = 0; i < names.length; i++) {
@@ -55,7 +55,7 @@ public class Question {
         }
     }
 
-    public void addOnRefuse(String[] names, short[] amounts) {
+    public void addOnRefuse(String[] names, int[] amounts) {
         if (names.length != amounts.length) return;
 
         for (int i = 0; i < names.length; i++) {
@@ -64,20 +64,20 @@ public class Question {
         }
     }
 
-    public Map<String, Short> getOnAccept() {
+    public Map<String, Integer> getOnAccept() {
         return this.accept;
     }
 
-    public Map<String, Short> getOnRefuse() {
+    public Map<String, Integer> getOnRefuse() {
         return this.refuse;
     }
 
-    public short getOnAccept(String key) {
+    public int getOnAccept(String key) {
         if (this.accept.containsKey(key)) return this.accept.get(key);
         return 0;
     }
 
-    public short getOnRefuse(String key) {
+    public int getOnRefuse(String key) {
         if (this.refuse.containsKey(key)) return this.refuse.get(key);
         return 0;
     }
