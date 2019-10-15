@@ -6,8 +6,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Scenes.IndicatorsInfo;
+import com.hackheroes.game.Tools.QuestionsLoader;
+
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Random;
 
 public class GameScreen extends AbstractScreen {
 
@@ -108,6 +111,7 @@ public class GameScreen extends AbstractScreen {
                         indicatorsInfo.indicators.get(key).changeBy(effects.get(key));
                     }
                 }
+                activeQuestion = randomActiveQuestion();
             }
         }
     }
@@ -115,25 +119,12 @@ public class GameScreen extends AbstractScreen {
     private MainClass game;
 
     private int difficulty = MainClass.EASY;
+    private ArrayList<QuestionsLoader.Question> questionsCollection;
+    private QuestionsLoader.Question activeQuestion;
+
     private QuestionField questionField;
     private AnswerField acceptField, refuseField;
     public IndicatorsInfo indicatorsInfo;
-
-    private String question = "Bardzo długi tekst, który nie zmieści się w jednej linijce, więc będzie musiał być rozbity na kilka linijek. Jednakże w całym polu tekstowym powinien się zmieścić.";
-    private Map<String, Short> accept = new TreeMap<String, Short>() {{
-        put("environment", (short) 10);
-        put("food", (short) 15);
-        put("population", (short) -20);
-        put("resources", (short) -15);
-        put("money", (short) 2150);
-    }};
-    private Map<String, Short> refuse = new TreeMap<String, Short>() {{
-        put("environment", (short) 20);
-        put("food", (short) -5);
-        put("population", (short) -10);
-        put("resources", (short) +35);
-        put("money", (short) -1250);
-    }};
 
     public GameScreen(MainClass game) {
         this.game = game;
@@ -141,6 +132,9 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
+        questionsCollection = game.questionsLoader.getQuestions();
+        activeQuestion = randomActiveQuestion();
+
         questionField = new QuestionField();
         acceptField = new AnswerField(140, 95, 250, 500, "Akceptuj");
         refuseField = new AnswerField(420, 95, 250, 500, "Odmów");
@@ -153,9 +147,9 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!indicatorsInfo.bigWindow) {
-            questionField.render(question);
-            acceptField.render(accept);
-            refuseField.render(refuse);
+            questionField.render(activeQuestion.getQuestion());
+            acceptField.render(activeQuestion.getOnAccept());
+            refuseField.render(activeQuestion.getOnRefuse());
         }
 
         indicatorsInfo.render(delta);
@@ -177,5 +171,22 @@ public class GameScreen extends AbstractScreen {
             refuseField.isClicked(touchX, touchY);
         }
         indicatorsInfo.isClicked(touchX, touchY);
+    }
+
+    private QuestionsLoader.Question randomActiveQuestion() {
+        QuestionsLoader.Question question;
+        Random random = new Random();
+
+        if (questionsCollection.size() == 1) {
+            question = questionsCollection.get(0);
+            questionsCollection = game.questionsLoader.getQuestions();
+
+        } else {
+            int rnd = random.nextInt(questionsCollection.size());
+            question = questionsCollection.get(rnd);
+            questionsCollection.remove(rnd);
+        }
+
+        return question;
     }
 }

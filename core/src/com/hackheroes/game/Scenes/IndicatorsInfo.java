@@ -8,9 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.hackheroes.game.Components.StatusBar;
 import com.hackheroes.game.MainClass;
-
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class IndicatorsInfo {
 
@@ -131,7 +130,7 @@ public class IndicatorsInfo {
 
     private MainClass game;
 
-    public Map<String, StatusBar> indicators = new HashMap<>();
+    public Map<String, StatusBar> indicators = new TreeMap<>();
     public int money = 5000;
     private Stage stage;
     private Button button;

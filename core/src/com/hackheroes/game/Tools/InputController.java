@@ -18,6 +18,7 @@ public class InputController implements InputProcessor {
             for (String key : game.gameScreen.indicatorsInfo.indicators.keySet()) {
                 Gdx.app.log("" + key, "" + game.gameScreen.indicatorsInfo.indicators.get(key).getValue());
             }
+            Gdx.app.log("---------", "-------------------");
         } /*else if (keycode == 20) {
             Gdx.app.log("down", "down");
             for (StatusBar statusBar : game.gameScreen.indicatorsInfo.indicators.values()) {

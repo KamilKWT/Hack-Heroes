@@ -12,6 +12,7 @@ import com.hackheroes.game.Screens.GameScreen;
 import com.hackheroes.game.Tools.AssetsLoader;
 import com.hackheroes.game.Tools.InputController;
 import com.hackheroes.game.Tools.MyShapeRenderer;
+import com.hackheroes.game.Tools.QuestionsLoader;
 
 public class MainClass extends Game {
 
@@ -24,6 +25,7 @@ public class MainClass extends Game {
 	public static final int LARGE_EFFECT_THRESHOLD = 30;
 
 	public AssetsLoader assetsLoader;
+	public QuestionsLoader questionsLoader;
 
 	public OrthographicCamera gameCamera;
 	public Viewport gameViewport;
@@ -37,6 +39,7 @@ public class MainClass extends Game {
 	public void create () {
 		Gdx.input.setInputProcessor(new InputController(this));
 		assetsLoader = AssetsLoader.loadAssets();
+		questionsLoader = QuestionsLoader.loadQuestions();
 
 		gameCamera = new OrthographicCamera();
 		gameCamera.setToOrtho(false, V_WIDTH, V_HEIGHT);
