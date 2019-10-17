@@ -4,13 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.hackheroes.game.Components.Question;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Scenes.IndicatorsInfo;
 import com.hackheroes.game.Tools.QuestionsLoader;
 
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 
 public class GameScreen extends AbstractScreen {
 
@@ -77,25 +76,37 @@ public class GameScreen extends AbstractScreen {
                 game.gameBatch.draw(game.assetsLoader.findTexture(key), x + 40, y, 50, 50);
                 if (effects.get(key) > 0) {
                     game.gameBatch.draw(game.assetsLoader.findTexture("plus-full"), x + 110, y + 10, 10, 10);
-                    if (Math.abs(effects.get(key)) >= MainClass.MEDIUM_EFFECT_THRESHOLD) game.gameBatch.draw(game.assetsLoader.findTexture("plus-full"), x + 140, y + 5, 20, 20);
-                    else game.gameBatch.draw(game.assetsLoader.findTexture("plus-empty"), x + 140, y + 5, 20, 20);
-                    if (Math.abs(effects.get(key)) >= MainClass.LARGE_EFFECT_THRESHOLD) game.gameBatch.draw(game.assetsLoader.findTexture("plus-full"), x + 180, y, 30, 30);
-                    else game.gameBatch.draw(game.assetsLoader.findTexture("plus-empty"), x + 180, y, 30, 30);
+                    if (Math.abs(effects.get(key)) >= MainClass.MEDIUM_EFFECT_THRESHOLD)
+                        game.gameBatch.draw(game.assetsLoader.findTexture("plus-full"), x + 140, y + 5, 20, 20);
+                    else
+                        game.gameBatch.draw(game.assetsLoader.findTexture("plus-empty"), x + 140, y + 5, 20, 20);
+                    if (Math.abs(effects.get(key)) >= MainClass.LARGE_EFFECT_THRESHOLD)
+                        game.gameBatch.draw(game.assetsLoader.findTexture("plus-full"), x + 180, y, 30, 30);
+                    else
+                        game.gameBatch.draw(game.assetsLoader.findTexture("plus-empty"), x + 180, y, 30, 30);
                 } else {
                     game.gameBatch.draw(game.assetsLoader.findTexture("minus-full"), x + 110, y + 10, 10, 10);
-                    if (Math.abs(effects.get(key)) >= MainClass.MEDIUM_EFFECT_THRESHOLD) game.gameBatch.draw(game.assetsLoader.findTexture("minus-full"), x + 140, y + 5, 20, 20);
-                    else game.gameBatch.draw(game.assetsLoader.findTexture("minus-empty"), x + 140, y + 5, 20, 20);
-                    if (Math.abs(effects.get(key)) >= MainClass.LARGE_EFFECT_THRESHOLD) game.gameBatch.draw(game.assetsLoader.findTexture("minus-full"), x + 180, y, 30, 30);
-                    else game.gameBatch.draw(game.assetsLoader.findTexture("minus-empty"), x + 180, y, 30, 30);
+                    if (Math.abs(effects.get(key)) >= MainClass.MEDIUM_EFFECT_THRESHOLD)
+                        game.gameBatch.draw(game.assetsLoader.findTexture("minus-full"), x + 140, y + 5, 20, 20);
+                    else
+                        game.gameBatch.draw(game.assetsLoader.findTexture("minus-empty"), x + 140, y + 5, 20, 20);
+                    if (Math.abs(effects.get(key)) >= MainClass.LARGE_EFFECT_THRESHOLD)
+                        game.gameBatch.draw(game.assetsLoader.findTexture("minus-full"), x + 180, y, 30, 30);
+                    else
+                        game.gameBatch.draw(game.assetsLoader.findTexture("minus-empty"), x + 180, y, 30, 30);
                 }
 
             } else if (difficulty == MainClass.MEDIUM) {
                 game.gameBatch.draw(game.assetsLoader.findTexture(key), x + 40, y, 50, 50);
                 game.gameBatch.draw(game.assetsLoader.findTexture("dot-full"), x + 110, y + 10, 10, 10);
-                if (Math.abs(effects.get(key)) >= MainClass.MEDIUM_EFFECT_THRESHOLD) game.gameBatch.draw(game.assetsLoader.findTexture("dot-full"), x + 140, y + 5, 20, 20);
-                else game.gameBatch.draw(game.assetsLoader.findTexture("dot-empty"), x + 140, y + 5, 20, 20);
-                if (Math.abs(effects.get(key)) >= MainClass.LARGE_EFFECT_THRESHOLD) game.gameBatch.draw(game.assetsLoader.findTexture("dot-full"), x + 180, y, 30, 30);
-                else game.gameBatch.draw(game.assetsLoader.findTexture("dot-empty"), x + 180, y, 30, 30);
+                if (Math.abs(effects.get(key)) >= MainClass.MEDIUM_EFFECT_THRESHOLD)
+                    game.gameBatch.draw(game.assetsLoader.findTexture("dot-full"), x + 140, y + 5, 20, 20);
+                else
+                    game.gameBatch.draw(game.assetsLoader.findTexture("dot-empty"), x + 140, y + 5, 20, 20);
+                if (Math.abs(effects.get(key)) >= MainClass.LARGE_EFFECT_THRESHOLD)
+                    game.gameBatch.draw(game.assetsLoader.findTexture("dot-full"), x + 180, y, 30, 30);
+                else
+                    game.gameBatch.draw(game.assetsLoader.findTexture("dot-empty"), x + 180, y, 30, 30);
 
             } else if (difficulty == MainClass.HARD) {
                 game.gameBatch.draw(game.assetsLoader.findTexture(key), x + 100, y, 50, 50);
@@ -111,7 +122,7 @@ public class GameScreen extends AbstractScreen {
                         indicatorsInfo.indicators.get(key).changeBy(effects.get(key));
                     }
                 }
-                activeQuestion = randomActiveQuestion();
+                activeQuestion = questionsLoader.getRandomQuestion();
             }
         }
     }
@@ -119,8 +130,8 @@ public class GameScreen extends AbstractScreen {
     private MainClass game;
 
     private int difficulty = MainClass.EASY;
-    private ArrayList<QuestionsLoader.Question> questionsCollection;
-    private QuestionsLoader.Question activeQuestion;
+    private final QuestionsLoader questionsLoader = new QuestionsLoader();
+    private Question activeQuestion = questionsLoader.getRandomQuestion();
 
     private QuestionField questionField;
     private AnswerField acceptField, refuseField;
@@ -132,8 +143,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        questionsCollection = game.questionsLoader.getQuestions();
-        activeQuestion = randomActiveQuestion();
+        activeQuestion = questionsLoader.getRandomQuestion();
 
         questionField = new QuestionField();
         acceptField = new AnswerField(140, 95, 250, 500, "Akceptuj");
@@ -171,22 +181,5 @@ public class GameScreen extends AbstractScreen {
             refuseField.isClicked(touchX, touchY);
         }
         indicatorsInfo.isClicked(touchX, touchY);
-    }
-
-    private QuestionsLoader.Question randomActiveQuestion() {
-        QuestionsLoader.Question question;
-        Random random = new Random();
-
-        if (questionsCollection.size() == 1) {
-            question = questionsCollection.get(0);
-            questionsCollection = game.questionsLoader.getQuestions();
-
-        } else {
-            int rnd = random.nextInt(questionsCollection.size());
-            question = questionsCollection.get(rnd);
-            questionsCollection.remove(rnd);
-        }
-
-        return question;
     }
 }
