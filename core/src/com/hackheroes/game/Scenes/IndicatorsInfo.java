@@ -1,6 +1,5 @@
 package com.hackheroes.game.Scenes;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -26,9 +25,9 @@ public class IndicatorsInfo {
         public void draw(Batch batch, float delta) {
             game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
             game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            game.gameShapeRenderer.setColor(Color.BROWN);
+            game.gameShapeRenderer.setColor(MainClass.GUI_BORDER_COLOR);
             game.gameShapeRenderer.roundRect(xPos - 10, yPos - 10, width + 20, height + 20, 20);
-            game.gameShapeRenderer.setColor(Color.GOLD);
+            game.gameShapeRenderer.setColor(MainClass.GUI_BACKGROUND_COLOR);
             game.gameShapeRenderer.roundRect(xPos, yPos, width, height, 10);
             game.gameShapeRenderer.end();
         }
@@ -112,7 +111,7 @@ public class IndicatorsInfo {
         public void draw(Batch batch, float delta) {
             game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
             game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            game.gameShapeRenderer.setColor(Color.ORANGE);
+            game.gameShapeRenderer.setColor(MainClass.GUI_MARKED_COLOR);
             game.gameShapeRenderer.roundRect(xPos + x - 20, yPos + y - 20, 440, 190, 20);
             game.gameShapeRenderer.end();
 
@@ -170,13 +169,13 @@ public class IndicatorsInfo {
 
         game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
         game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        game.gameShapeRenderer.setColor(Color.BROWN);
+        game.gameShapeRenderer.setColor(MainClass.GUI_BORDER_COLOR);
         game.gameShapeRenderer.rect(420, 1210, 300, 70);
-        game.gameShapeRenderer.setColor(Color.GOLD);
+        game.gameShapeRenderer.setColor(MainClass.GUI_BACKGROUND_COLOR);
         game.gameShapeRenderer.rect(430, 1220, 300, 60);
-        game.gameShapeRenderer.setColor(Color.BROWN);
+        game.gameShapeRenderer.setColor(MainClass.GUI_BORDER_COLOR);
         game.gameShapeRenderer.circle(420, 1245, 55);
-        game.gameShapeRenderer.setColor(Color.GOLD);
+        game.gameShapeRenderer.setColor(MainClass.GUI_BACKGROUND_COLOR);
         game.gameShapeRenderer.circle(420, 1245, 45);
         game.gameShapeRenderer.end();
 

@@ -1,13 +1,9 @@
 package com.hackheroes.game.Screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.hackheroes.game.Components.Question;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Scenes.IndicatorsInfo;
-import com.hackheroes.game.Tools.QuestionsLoader;
 import java.util.Map;
 
 public class GameScreen extends AbstractScreen {
@@ -16,9 +12,9 @@ public class GameScreen extends AbstractScreen {
         void render(String question) {
             game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
             game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            game.gameShapeRenderer.setColor(Color.BROWN);
+            game.gameShapeRenderer.setColor(MainClass.GUI_BORDER_COLOR);
             game.gameShapeRenderer.roundRect(140, 625, 530, 470, 20);
-            game.gameShapeRenderer.setColor(Color.GOLD);
+            game.gameShapeRenderer.setColor(MainClass.GUI_BACKGROUND_COLOR);
             game.gameShapeRenderer.roundRect(150, 635, 510, 450, 10);
             game.gameShapeRenderer.end();
 
@@ -49,9 +45,9 @@ public class GameScreen extends AbstractScreen {
 
             game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
             game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            game.gameShapeRenderer.setColor(Color.BROWN);
+            game.gameShapeRenderer.setColor(MainClass.GUI_BORDER_COLOR);
             game.gameShapeRenderer.roundRect(x, y, width, height, 20);
-            game.gameShapeRenderer.setColor(Color.GOLD);
+            game.gameShapeRenderer.setColor(MainClass.GUI_BACKGROUND_COLOR);
             game.gameShapeRenderer.roundRect(x + 10, y + 10, width - 20, height - 20, 10);
             game.gameShapeRenderer.end();
 
@@ -151,9 +147,6 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(200f / 255f, 200f / 255f, 200f / 255f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         if (!indicatorsInfo.bigWindow) {
             questionField.render(activeQuestion.getQuestion());
             acceptField.render(activeQuestion.getOnAccept());
