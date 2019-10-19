@@ -3,10 +3,6 @@ package com.hackheroes.game.Components;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Created by BlackBird on 10/17/2019.
- */
-
 public class Question {
 
     private String question;

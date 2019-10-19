@@ -2,9 +2,7 @@ package com.hackheroes.game.Tools;
 
 import com.badlogic.gdx.utils.Array;
 import com.hackheroes.game.Components.Question;
-
 import java.util.Random;
-
 
 public class QuestionsLoader {
 

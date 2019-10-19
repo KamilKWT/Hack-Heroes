@@ -8,7 +8,6 @@ import com.hackheroes.game.Components.Question;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Scenes.IndicatorsInfo;
 import com.hackheroes.game.Tools.QuestionsLoader;
-
 import java.util.Map;
 
 public class GameScreen extends AbstractScreen {
@@ -122,7 +121,7 @@ public class GameScreen extends AbstractScreen {
                         indicatorsInfo.indicators.get(key).changeBy(effects.get(key));
                     }
                 }
-                activeQuestion = questionsLoader.getRandomQuestion();
+                activeQuestion = game.questionsLoader.getRandomQuestion();
             }
         }
     }
@@ -130,8 +129,7 @@ public class GameScreen extends AbstractScreen {
     private MainClass game;
 
     private int difficulty = MainClass.EASY;
-    private final QuestionsLoader questionsLoader = new QuestionsLoader();
-    private Question activeQuestion = questionsLoader.getRandomQuestion();
+    private Question activeQuestion;
 
     private QuestionField questionField;
     private AnswerField acceptField, refuseField;
@@ -143,7 +141,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        activeQuestion = questionsLoader.getRandomQuestion();
+        activeQuestion = game.questionsLoader.getRandomQuestion();
 
         questionField = new QuestionField();
         acceptField = new AnswerField(140, 95, 250, 500, "Akceptuj");
