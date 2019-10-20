@@ -39,10 +39,6 @@ public class MenuScreen extends AbstractScreen {
             this.y = y;
         }
 
-        void setText(String text) {
-            this.text = text;
-        }
-
         int getWidth() {
             return width;
         }
@@ -94,12 +90,7 @@ public class MenuScreen extends AbstractScreen {
         game.gameViewport.update(width, height, false);
     }
 
-    @Override
-    public void dispose() {
-
-    }
-
-    public void setMainMenu(boolean mainMenu) {
+    void setMainMenu(boolean mainMenu) {
         this.mainMenu = mainMenu;
     }
 
@@ -124,7 +115,7 @@ public class MenuScreen extends AbstractScreen {
         mainMenuButtons.add(new Button(350, 100, "Pomoc") {
             @Override
             void action() {
-
+                game.setScreen(game.helpScreen);
             }
         });
 

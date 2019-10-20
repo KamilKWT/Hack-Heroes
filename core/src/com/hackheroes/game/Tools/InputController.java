@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Screens.GameScreen;
+import com.hackheroes.game.Screens.HelpScreen;
 import com.hackheroes.game.Screens.MenuScreen;
 
 public class InputController implements InputProcessor {
@@ -21,11 +22,6 @@ public class InputController implements InputProcessor {
                 Gdx.app.log("" + key, "" + game.gameScreen.indicatorsInfo.indicators.get(key).getValue());
             }
             Gdx.app.log("---------", "-------------------");
-        } /*else if (keycode == 20) {
-            Gdx.app.log("down", "down");
-            for (StatusBar statusBar : game.gameScreen.indicatorsInfo.indicators.values()) {
-                statusBar.changeBy(-5);
-            }
         }*/
         return false;
     }
@@ -47,6 +43,9 @@ public class InputController implements InputProcessor {
 
         if (game.getScreen() instanceof MenuScreen) {
             game.menuScreen.isClicked(touchX, touchY);
+
+        } else if (game.getScreen() instanceof HelpScreen) {
+            game.helpScreen.isClicked(touchX, touchY);
 
         } else if (game.getScreen() instanceof GameScreen) {
             game.gameScreen.isClicked(touchX, touchY);
