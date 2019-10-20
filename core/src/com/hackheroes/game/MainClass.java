@@ -17,6 +17,7 @@ import com.hackheroes.game.Tools.AssetsLoader;
 import com.hackheroes.game.Tools.InputController;
 import com.hackheroes.game.Tools.MyShapeRenderer;
 import com.hackheroes.game.Tools.QuestionsLoader;
+import com.hackheroes.game.Tools.ScreenManager;
 
 public class MainClass extends Game {
 
@@ -33,6 +34,8 @@ public class MainClass extends Game {
     public static final int MEDIUM_EFFECT_THRESHOLD = 15;
     public static final int LARGE_EFFECT_THRESHOLD = 30;
 
+    public enum ScreenType {MENU, HELP, GAME}
+
     public AssetsLoader assetsLoader;
     public QuestionsLoader questionsLoader;
 
@@ -42,9 +45,7 @@ public class MainClass extends Game {
     public MyShapeRenderer gameShapeRenderer;
     public BitmapFont gameFont;
 
-    public MenuScreen menuScreen;
-    public HelpScreen helpScreen;
-    public GameScreen gameScreen;
+    public ScreenManager screenManager = new ScreenManager(this);
 
     @Override
     public void create() {
@@ -60,11 +61,7 @@ public class MainClass extends Game {
         gameFont = new BitmapFont(Gdx.files.internal("fonts/Arial.fnt"));
         gameFont.setColor(GUI_FONT_COLOR);
 
-        menuScreen = new MenuScreen(this);
-        helpScreen = new HelpScreen(this);
-        gameScreen = new GameScreen(this);
-
-        this.setScreen(menuScreen);
+        this.setScreen(ScreenType.MENU);
     }
 
     @Override
@@ -79,6 +76,20 @@ public class MainClass extends Game {
         gameShapeRenderer.end();
 
         super.render();
+    }
+
+    public void setScreen(ScreenType type) {
+        this.setScreen(screenManager.getScreen(type));
+    }
+
+    public void restart() {
+        ((GameScreen) screenManager.getScreen(ScreenType.GAME)).newGame();
+        this.setScreen(ScreenType.GAME);
+    }
+
+    public void restart(int difficulty) {
+        ((GameScreen) screenManager.getScreen(ScreenType.GAME)).difficulty = difficulty;
+        this.restart();
     }
 
     @Override

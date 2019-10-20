@@ -2,6 +2,7 @@ package com.hackheroes.game.Tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Screens.GameScreen;
 import com.hackheroes.game.Screens.HelpScreen;
@@ -42,13 +43,13 @@ public class InputController implements InputProcessor {
         int touchY = (int) (MainClass.V_HEIGHT - (screenY * ((float) MainClass.V_HEIGHT / (float) Gdx.graphics.getHeight())));
 
         if (game.getScreen() instanceof MenuScreen) {
-            game.menuScreen.isClicked(touchX, touchY);
+            ((MenuScreen) game.screenManager.getScreen(MainClass.ScreenType.MENU)).isClicked(touchX, touchY);
 
         } else if (game.getScreen() instanceof HelpScreen) {
-            game.helpScreen.isClicked(touchX, touchY);
+            ((HelpScreen) game.screenManager.getScreen(MainClass.ScreenType.HELP)).isClicked(touchX, touchY);
 
         } else if (game.getScreen() instanceof GameScreen) {
-            game.gameScreen.isClicked(touchX, touchY);
+            ((GameScreen) game.screenManager.getScreen(MainClass.ScreenType.GAME)).isClicked(touchX, touchY);
         }
 
         return false;

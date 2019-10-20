@@ -53,16 +53,17 @@ public class MenuScreen extends AbstractScreen {
             }
         }
 
-        void action() {}
+        void action() {
+        }
     }
 
     private MainClass game;
 
-    private  boolean mainMenu;
+    private boolean mainMenu;
     private final Array<Button> mainMenuButtons = new Array<>();
     private final Array<Button> gameMenuButtons = new Array<>();
     private final Array<Button> difficultyButtons = new Array<>();
-    private  Array<Button> activeButtons = new Array<>();
+    private Array<Button> activeButtons = new Array<>();
 
 
     public MenuScreen(MainClass game) {
@@ -115,7 +116,7 @@ public class MenuScreen extends AbstractScreen {
         mainMenuButtons.add(new Button(350, 100, "Pomoc") {
             @Override
             void action() {
-                game.setScreen(game.helpScreen);
+                game.setScreen(MainClass.ScreenType.HELP);
             }
         });
 
@@ -129,15 +130,14 @@ public class MenuScreen extends AbstractScreen {
         gameMenuButtons.add(new Button(350, 100, "Wznów") {
             @Override
             void action() {
-                game.setScreen(game.gameScreen);
+                game.setScreen(MainClass.ScreenType.GAME);
             }
         });
 
         gameMenuButtons.add(new Button(350, 100, "Od nowa") {
             @Override
             void action() {
-                game.gameScreen.newGame();
-                game.setScreen(game.gameScreen);
+                game.restart();
             }
         });
 
@@ -145,34 +145,28 @@ public class MenuScreen extends AbstractScreen {
             @Override
             void action() {
                 setMainMenu(true);
-                game.setScreen(game.menuScreen);
+                game.setScreen(MainClass.ScreenType.MENU);
             }
         });
 
         difficultyButtons.add(new Button(350, 100, "Łatwy") {
             @Override
             void action() {
-                game.gameScreen.difficulty = MainClass.EASY;
-                game.gameScreen.newGame();
-                game.setScreen(game.gameScreen);
+                game.restart(MainClass.EASY);
             }
         });
 
         difficultyButtons.add(new Button(350, 100, "Średni") {
             @Override
             void action() {
-                game.gameScreen.difficulty = MainClass.MEDIUM;
-                game.gameScreen.newGame();
-                game.setScreen(game.gameScreen);
+                game.restart(MainClass.MEDIUM);
             }
         });
 
         difficultyButtons.add(new Button(350, 100, "Trudny") {
             @Override
             void action() {
-                game.gameScreen.difficulty = MainClass.HARD;
-                game.gameScreen.newGame();
-                game.setScreen(game.gameScreen);
+                game.restart(MainClass.HARD);
             }
         });
     }

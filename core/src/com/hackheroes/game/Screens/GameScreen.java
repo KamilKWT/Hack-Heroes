@@ -5,6 +5,7 @@ import com.hackheroes.game.Components.Question;
 import com.hackheroes.game.Components.StatusBar;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Scenes.IndicatorsInfo;
+
 import java.util.Map;
 
 public class GameScreen extends AbstractScreen {
@@ -125,7 +126,7 @@ public class GameScreen extends AbstractScreen {
 
     private MainClass game;
 
-    int difficulty;
+    public int difficulty;
     private Question activeQuestion;
 
     private QuestionField questionField;
@@ -167,7 +168,7 @@ public class GameScreen extends AbstractScreen {
         indicatorsInfo.dispose();
     }
 
-    void newGame() {
+    public void newGame() {
         game.questionsLoader.resetQuestions();
         activeQuestion = game.questionsLoader.getRandomQuestion();
 
@@ -179,8 +180,8 @@ public class GameScreen extends AbstractScreen {
 
     public void isClicked(int touchX, int touchY) {
         if (Math.sqrt(Math.pow(touchX - 50, 2) + Math.pow(touchY - 1230, 2)) <= 50) {
-            game.menuScreen.setMainMenu(false);
-            game.setScreen(game.menuScreen);
+            ((MenuScreen) game.screenManager.getScreen(MainClass.ScreenType.MENU)).setMainMenu(false);
+            game.setScreen(MainClass.ScreenType.MENU);
         }
 
         if (!(indicatorsInfo.showing || indicatorsInfo.hiding || indicatorsInfo.bigWindow)) {
