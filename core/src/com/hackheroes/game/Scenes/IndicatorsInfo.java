@@ -50,11 +50,11 @@ public class IndicatorsInfo {
         public void draw(Batch batch, float delta) {
             game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
             game.gameBatch.begin();
-            game.gameBatch.draw(texture, xPos + x - width / 2, yPos + y - height / 2, 80, 80);
+            game.gameBatch.draw(texture, xPos + x - width / 2, yPos + y - height / 2, width, height);
             game.gameBatch.end();
         }
 
-        public void isClicked(int touchX, int touchY) {
+        void isClicked(int touchX, int touchY) {
             if (Math.sqrt(Math.pow((touchX - (xPos + x)), 2) + Math.pow((touchY - (yPos + y)), 2)) <= (width / 2)) {
                 if (bigWindow && !hiding) {
                     hiding = true;
@@ -130,7 +130,7 @@ public class IndicatorsInfo {
     private MainClass game;
 
     public Map<String, StatusBar> indicators = new TreeMap<>();
-    public int money = 5000;
+    public int money;
     private Stage stage;
     private Button button;
     private int xPos, yPos, width, height;

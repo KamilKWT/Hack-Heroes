@@ -25,6 +25,7 @@ public class AssetsLoader {
         assetsLoader.addTexture("money", new Texture(Gdx.files.internal("images/money.png")));
         assetsLoader.addTexture("population", new Texture(Gdx.files.internal("images/population.png")));
         assetsLoader.addTexture("resources", new Texture(Gdx.files.internal("images/resources.png")));
+        assetsLoader.addTexture("menuBtn", new Texture(Gdx.files.internal("images/menuBtn.png")));
         assetsLoader.addTexture("leftBtn", new Texture(Gdx.files.internal("images/leftBtn.png")));
         assetsLoader.addTexture("rightBtn", new Texture(Gdx.files.internal("images/rightBtn.png")));
         assetsLoader.addTexture("dot-empty", new Texture(Gdx.files.internal("images/dot-empty.png")));

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.hackheroes.game.Screens.GameScreen;
+import com.hackheroes.game.Screens.MenuScreen;
 import com.hackheroes.game.Tools.AssetsLoader;
 import com.hackheroes.game.Tools.InputController;
 import com.hackheroes.game.Tools.MyShapeRenderer;
@@ -40,6 +41,7 @@ public class MainClass extends Game {
     public MyShapeRenderer gameShapeRenderer;
     public BitmapFont gameFont;
 
+    public MenuScreen menuScreen;
     public GameScreen gameScreen;
 
     @Override
@@ -56,8 +58,11 @@ public class MainClass extends Game {
         gameFont = new BitmapFont(Gdx.files.internal("fonts/Arial.fnt"));
         gameFont.setColor(GUI_FONT_COLOR);
 
+        menuScreen = new MenuScreen(this);
         gameScreen = new GameScreen(this);
-        this.setScreen(gameScreen);
+
+        //this.setScreen(gameScreen);
+        this.setScreen(menuScreen);
     }
 
     @Override

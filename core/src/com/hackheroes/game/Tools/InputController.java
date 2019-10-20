@@ -3,6 +3,8 @@ package com.hackheroes.game.Tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.hackheroes.game.MainClass;
+import com.hackheroes.game.Screens.GameScreen;
+import com.hackheroes.game.Screens.MenuScreen;
 
 public class InputController implements InputProcessor {
 
@@ -14,7 +16,7 @@ public class InputController implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == 19) {
+        /*if (keycode == 19) {
             for (String key : game.gameScreen.indicatorsInfo.indicators.keySet()) {
                 Gdx.app.log("" + key, "" + game.gameScreen.indicatorsInfo.indicators.get(key).getValue());
             }
@@ -42,7 +44,14 @@ public class InputController implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         int touchX = (int) (screenX * ((float) MainClass.V_WIDTH / (float) Gdx.graphics.getWidth()));
         int touchY = (int) (MainClass.V_HEIGHT - (screenY * ((float) MainClass.V_HEIGHT / (float) Gdx.graphics.getHeight())));
-        game.gameScreen.isClicked(touchX, touchY);
+
+        if (game.getScreen() instanceof MenuScreen) {
+            game.menuScreen.isClicked(touchX, touchY);
+
+        } else if (game.getScreen() instanceof GameScreen) {
+            game.gameScreen.isClicked(touchX, touchY);
+        }
+
         return false;
     }
 

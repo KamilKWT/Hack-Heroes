@@ -2,6 +2,7 @@ package com.hackheroes.game.Screens;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.hackheroes.game.Components.Question;
+import com.hackheroes.game.Components.StatusBar;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Scenes.IndicatorsInfo;
 import java.util.Map;
@@ -124,20 +125,15 @@ public class GameScreen extends AbstractScreen {
 
     private MainClass game;
 
-    private int difficulty = MainClass.EASY;
+    int difficulty;
     private Question activeQuestion;
 
     private QuestionField questionField;
     private AnswerField acceptField, refuseField;
-    public IndicatorsInfo indicatorsInfo;
+    private IndicatorsInfo indicatorsInfo;
 
     public GameScreen(MainClass game) {
         this.game = game;
-    }
-
-    @Override
-    public void show() {
-        activeQuestion = game.questionsLoader.getRandomQuestion();
 
         questionField = new QuestionField();
         acceptField = new AnswerField(140, 95, 250, 500, "Akceptuj");
@@ -147,6 +143,11 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
+        game.gameBatch.begin();
+        game.gameBatch.draw(game.assetsLoader.findTexture("menuBtn"), 0, 1180, 100, 100);
+        game.gameBatch.end();
+
         if (!indicatorsInfo.bigWindow) {
             questionField.render(activeQuestion.getQuestion());
             acceptField.render(activeQuestion.getOnAccept());
@@ -166,11 +167,27 @@ public class GameScreen extends AbstractScreen {
         indicatorsInfo.dispose();
     }
 
+    void newGame() {
+        game.questionsLoader.resetQuestions();
+        activeQuestion = game.questionsLoader.getRandomQuestion();
+
+        indicatorsInfo.money = 5000;
+        for (StatusBar indicator : indicatorsInfo.indicators.values()) {
+            indicator.setValue(50);
+        }
+    }
+
     public void isClicked(int touchX, int touchY) {
+        if (Math.sqrt(Math.pow(touchX - 50, 2) + Math.pow(touchY - 1230, 2)) <= 50) {
+            game.menuScreen.setMainMenu(false);
+            game.setScreen(game.menuScreen);
+        }
+
         if (!(indicatorsInfo.showing || indicatorsInfo.hiding || indicatorsInfo.bigWindow)) {
             acceptField.isClicked(touchX, touchY);
             refuseField.isClicked(touchX, touchY);
         }
+
         indicatorsInfo.isClicked(touchX, touchY);
     }
 }
