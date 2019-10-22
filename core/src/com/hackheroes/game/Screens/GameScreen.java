@@ -137,7 +137,7 @@ public class GameScreen extends AbstractScreen {
 
         questionField = new QuestionField();
         acceptField = new AnswerField(140, 95, 250, 500, "Akceptuj");
-        refuseField = new AnswerField(420, 95, 250, 500, "Odmów");
+        refuseField = new AnswerField(420, 95, 250, 500, "Odrzuć");
         indicatorsInfo = new IndicatorsInfo(game);
     }
 

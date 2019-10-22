@@ -19,21 +19,33 @@ public class AssetsLoader {
     }
 
     private static void loadTextures(AssetsLoader assetsLoader) {
-        assetsLoader.addTexture("badlogic", new Texture(Gdx.files.internal("images/badlogic.jpg")));
-        assetsLoader.addTexture("environment", new Texture(Gdx.files.internal("images/environment.png")));
-        assetsLoader.addTexture("food", new Texture(Gdx.files.internal("images/food.png")));
-        assetsLoader.addTexture("money", new Texture(Gdx.files.internal("images/money.png")));
-        assetsLoader.addTexture("population", new Texture(Gdx.files.internal("images/population.png")));
-        assetsLoader.addTexture("resources", new Texture(Gdx.files.internal("images/resources.png")));
-        assetsLoader.addTexture("menuBtn", new Texture(Gdx.files.internal("images/menuBtn.png")));
-        assetsLoader.addTexture("leftBtn", new Texture(Gdx.files.internal("images/leftBtn.png")));
-        assetsLoader.addTexture("rightBtn", new Texture(Gdx.files.internal("images/rightBtn.png")));
-        assetsLoader.addTexture("dot-empty", new Texture(Gdx.files.internal("images/dot-empty.png")));
-        assetsLoader.addTexture("dot-full", new Texture(Gdx.files.internal("images/dot-full.png")));
-        assetsLoader.addTexture("minus-empty", new Texture(Gdx.files.internal("images/minus-empty.png")));
-        assetsLoader.addTexture("minus-full", new Texture(Gdx.files.internal("images/minus-full.png")));
-        assetsLoader.addTexture("plus-empty", new Texture(Gdx.files.internal("images/plus-empty.png")));
-        assetsLoader.addTexture("plus-full", new Texture(Gdx.files.internal("images/plus-full.png")));
+        assetsLoader.addTexture("menuBtn", new Texture(Gdx.files.internal("images/btn/menuBtn.png")));
+        assetsLoader.addTexture("leftBtn", new Texture(Gdx.files.internal("images/btn/leftBtn.png")));
+        assetsLoader.addTexture("rightBtn", new Texture(Gdx.files.internal("images/btn/rightBtn.png")));
+
+        assetsLoader.addTexture("dot-empty", new Texture(Gdx.files.internal("images/elements/dot-empty.png")));
+        assetsLoader.addTexture("dot-full", new Texture(Gdx.files.internal("images/elements/dot-full.png")));
+        assetsLoader.addTexture("minus-empty", new Texture(Gdx.files.internal("images/elements/minus-empty.png")));
+        assetsLoader.addTexture("minus-full", new Texture(Gdx.files.internal("images/elements/minus-full.png")));
+        assetsLoader.addTexture("plus-empty", new Texture(Gdx.files.internal("images/elements/plus-empty.png")));
+        assetsLoader.addTexture("plus-full", new Texture(Gdx.files.internal("images/elements/plus-full.png")));
+
+        assetsLoader.addTexture("page1", new Texture(Gdx.files.internal("images/help/page1.png")));
+        assetsLoader.addTexture("page2", new Texture(Gdx.files.internal("images/help/page2.png")));
+        assetsLoader.addTexture("page3", new Texture(Gdx.files.internal("images/help/page3.png")));
+        assetsLoader.addTexture("page4", new Texture(Gdx.files.internal("images/help/page4.png")));
+        assetsLoader.addTexture("page5", new Texture(Gdx.files.internal("images/help/page5.png")));
+        assetsLoader.addTexture("page6", new Texture(Gdx.files.internal("images/help/page6.png")));
+        assetsLoader.addTexture("page7", new Texture(Gdx.files.internal("images/help/page7.png")));
+        assetsLoader.addTexture("page8", new Texture(Gdx.files.internal("images/help/page8.png")));
+        assetsLoader.addTexture("page9", new Texture(Gdx.files.internal("images/help/page9.png")));
+        assetsLoader.addTexture("page10", new Texture(Gdx.files.internal("images/help/page10.png")));
+
+        assetsLoader.addTexture("environment", new Texture(Gdx.files.internal("images/indicators/environment.png")));
+        assetsLoader.addTexture("food", new Texture(Gdx.files.internal("images/indicators/food.png")));
+        assetsLoader.addTexture("money", new Texture(Gdx.files.internal("images/indicators/money.png")));
+        assetsLoader.addTexture("population", new Texture(Gdx.files.internal("images/indicators/population.png")));
+        assetsLoader.addTexture("resources", new Texture(Gdx.files.internal("images/indicators/resources.png")));
     }
 
     private void addTexture(String name, Texture texture) {
