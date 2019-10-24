@@ -6,6 +6,7 @@ import com.hackheroes.game.Components.Question;
 import com.hackheroes.game.Components.StatusBar;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Scenes.IndicatorsInfo;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,7 +34,7 @@ public class GameScreen extends AbstractScreen {
 
         private int x, y, width, height;
         private String label;
-        private Map<String, Short> effects;
+        private Map<String, Integer> effects;
 
         private AnswerField(int x, int y, int width, int height, String label) {
             this.x = x;
@@ -43,7 +44,7 @@ public class GameScreen extends AbstractScreen {
             this.label = label;
         }
 
-        void render(Map<String, Short> effects) {
+        void render(Map<String, Integer> effects) {
             this.effects = effects;
 
             game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
