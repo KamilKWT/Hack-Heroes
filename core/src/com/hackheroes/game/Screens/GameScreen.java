@@ -1,11 +1,13 @@
 package com.hackheroes.game.Screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.hackheroes.game.Components.Question;
 import com.hackheroes.game.Components.StatusBar;
 import com.hackheroes.game.MainClass;
 import com.hackheroes.game.Scenes.IndicatorsInfo;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class GameScreen extends AbstractScreen {
 
@@ -14,15 +16,15 @@ public class GameScreen extends AbstractScreen {
             game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
             game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             game.gameShapeRenderer.setColor(MainClass.GUI_BORDER_COLOR);
-            game.gameShapeRenderer.roundRect(140, 625, 530, 470, 20);
+            game.gameShapeRenderer.roundRect(140, 580, 530, 470, 20);
             game.gameShapeRenderer.setColor(MainClass.GUI_BACKGROUND_COLOR);
-            game.gameShapeRenderer.roundRect(150, 635, 510, 450, 10);
+            game.gameShapeRenderer.roundRect(150, 590, 510, 450, 10);
             game.gameShapeRenderer.end();
 
             game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
             game.gameBatch.begin();
             game.gameFont.getData().setScale(0.5f);
-            game.gameFont.draw(game.gameBatch, question, 170, 1065, 470, 1, true);
+            game.gameFont.draw(game.gameBatch, question, 170, 1020, 470, 1, true);
             game.gameBatch.end();
         }
     }
@@ -111,14 +113,24 @@ public class GameScreen extends AbstractScreen {
 
         void isClicked(int touchX, int touchY) {
             if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
-                for (String key : effects.keySet()) {
-                    if (key.equals("money")) {
-                        indicatorsInfo.money += effects.get(key);
-                    } else {
-                        indicatorsInfo.indicators.get(key).changeBy(effects.get(key));
-                    }
+                Gdx.app.log("" + activeQuestion.getOnAccept("money"), "" + (indicatorsInfo.money + activeQuestion.getOnAccept("money")));
+                Gdx.app.log("" + activeQuestion.getOnRefuse("money"), "" + (indicatorsInfo.money + activeQuestion.getOnRefuse("money")));
+                if (indicatorsInfo.money + activeQuestion.getOnAccept("money") < 0 && indicatorsInfo.money + activeQuestion.getOnRefuse("money") < 0) {
+                    endReason = "money";
+                    Gdx.app.log("ok", "ok");
                 }
-                activeQuestion = game.questionsLoader.getRandomQuestion();
+                Gdx.app.log("" + effects.get("money"), "" + (indicatorsInfo.money + effects.get("money")));
+                if (indicatorsInfo.money + effects.get("money") > 0) {
+                    for (String key : effects.keySet()) {
+                        if (key.equals("money")) {
+                            indicatorsInfo.money += effects.get(key);
+                        } else {
+                            indicatorsInfo.indicators.get(key).changeBy(effects.get(key));
+                        }
+                    }
+                    activeQuestion = game.questionsLoader.getRandomQuestion();
+                    indicatorsInfo.score += 50 * difficulty;
+                }
             }
         }
     }
@@ -132,17 +144,31 @@ public class GameScreen extends AbstractScreen {
     private AnswerField acceptField, refuseField;
     private IndicatorsInfo indicatorsInfo;
 
+    String endReason;
+
     public GameScreen(MainClass game) {
         this.game = game;
 
         questionField = new QuestionField();
-        acceptField = new AnswerField(140, 95, 250, 500, "Akceptuj");
-        refuseField = new AnswerField(420, 95, 250, 500, "Odrzuć");
+        acceptField = new AnswerField(140, 50, 250, 500, "Akceptuj");
+        refuseField = new AnswerField(420, 50, 250, 500, "Odrzuć");
         indicatorsInfo = new IndicatorsInfo(game);
     }
 
     @Override
     public void render(float delta) {
+        game.gameShapeRenderer.setProjectionMatrix(game.gameCamera.combined);
+        game.gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        game.gameShapeRenderer.setColor(MainClass.GUI_BORDER_COLOR);
+        game.gameShapeRenderer.roundRect(140, 1000, 530, 140, 30);
+        game.gameShapeRenderer.setColor(MainClass.GUI_BACKGROUND_COLOR);
+        game.gameShapeRenderer.roundRect(150, 1010, 510, 120, 20);
+        game.gameShapeRenderer.setColor(MainClass.GUI_MARKED_COLOR);
+        game.gameShapeRenderer.roundRect(160, 1020, 490, 100, 10);
+        game.gameShapeRenderer.setColor(MainClass.GUI_BACKGROUND_COLOR);
+        game.gameShapeRenderer.rect(150, 1040, 510, 20);
+        game.gameShapeRenderer.end();
+
         game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
         game.gameBatch.begin();
         game.gameBatch.draw(game.assetsLoader.findTexture("menuBtn"), 0, 1180, 100, 100);
@@ -155,6 +181,7 @@ public class GameScreen extends AbstractScreen {
         }
 
         indicatorsInfo.render(delta);
+        checkValues();
     }
 
     @Override
@@ -167,16 +194,7 @@ public class GameScreen extends AbstractScreen {
         indicatorsInfo.dispose();
     }
 
-    void newGame() {
-        game.questionsLoader.resetQuestions();
-        activeQuestion = game.questionsLoader.getRandomQuestion();
-
-        indicatorsInfo.money = 5000;
-        for (StatusBar indicator : indicatorsInfo.indicators.values()) {
-            indicator.setValue(50);
-        }
-    }
-
+    @Override
     public void isClicked(int touchX, int touchY) {
         if (Math.sqrt(Math.pow(touchX - 50, 2) + Math.pow(touchY - 1230, 2)) <= 50) {
             game.menuScreen.setMainMenu(false);
@@ -189,5 +207,42 @@ public class GameScreen extends AbstractScreen {
         }
 
         indicatorsInfo.isClicked(touchX, touchY);
+    }
+
+    void newGame() {
+        game.questionsLoader.resetQuestions();
+        activeQuestion = game.questionsLoader.getRandomQuestion();
+
+        endReason = "";
+
+        indicatorsInfo.money = 5000;
+        indicatorsInfo.score = 0;
+        for (StatusBar indicator : indicatorsInfo.indicators.values()) {
+            indicator.setValue(50);
+        }
+    }
+
+    private void checkValues() {
+        for (String key : indicatorsInfo.indicators.keySet()) {
+            if (indicatorsInfo.indicators.get(key).getValue(false) == 0) {
+                endReason = key;
+            } else if (key.equals("population") && indicatorsInfo.indicators.get("population").getValue(false) == indicatorsInfo.indicators.get("population").getMaxValue()) {
+                endReason = key + "_high";
+            }
+        }
+        if (!endReason.equals("")) {
+            game.setScreen(game.endScreen);
+        }
+    }
+
+    Map<String, Integer> getResult() {
+        return new TreeMap<String, Integer>() {{
+            put("environment", (int) indicatorsInfo.indicators.get("environment").getValue(false));
+            put("food", (int) indicatorsInfo.indicators.get("food").getValue(false));
+            put("population", (int) indicatorsInfo.indicators.get("population").getValue(false));
+            put("resources", (int) indicatorsInfo.indicators.get("resources").getValue(false));
+            put("money", indicatorsInfo.money);
+            put("score", indicatorsInfo.score);
+        }};
     }
 }

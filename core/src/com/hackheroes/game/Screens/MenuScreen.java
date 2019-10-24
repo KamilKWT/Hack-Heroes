@@ -79,6 +79,12 @@ public class MenuScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
+        game.gameBatch.begin();
+        game.gameFont.getData().setScale(1.25f);
+        game.gameFont.draw(game.gameBatch, "Save Your World", 0, MainClass.V_HEIGHT - 150, MainClass.V_WIDTH, 1, false);
+        game.gameBatch.end();
+
         for (Button button : activeButtons) {
             button.moveTo((MainClass.V_WIDTH - button.getWidth()) / 2, ((MainClass.V_HEIGHT + (totalButtonsHeight(activeButtons.size - 1) + ((activeButtons.size - 1) * 50))) / 2) - totalButtonsHeight(activeButtons.indexOf(button, true)) - (activeButtons.indexOf(button, true) * 50));
             button.draw();
@@ -88,6 +94,13 @@ public class MenuScreen extends AbstractScreen {
     @Override
     public void resize(int width, int height) {
         game.gameViewport.update(width, height, false);
+    }
+
+    @Override
+    public void isClicked(int touchX, int touchY) {
+        for (Button button : activeButtons) {
+            button.isClicked(touchX, touchY);
+        }
     }
 
     void setMainMenu(boolean mainMenu) {
@@ -175,11 +188,5 @@ public class MenuScreen extends AbstractScreen {
                 game.setScreen(game.gameScreen);
             }
         });
-    }
-
-    public void isClicked(int touchX, int touchY) {
-        for (Button button : activeButtons) {
-            button.isClicked(touchX, touchY);
-        }
     }
 }

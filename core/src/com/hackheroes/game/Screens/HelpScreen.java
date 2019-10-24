@@ -30,6 +30,7 @@ public class HelpScreen extends AbstractScreen {
         game.gameViewport.update(width, height, false);
     }
 
+    @Override
     public void isClicked(int touchX, int touchY) {
         if (touchY <= 190 && touchX <= 360) {
             if (page > 1) page--;

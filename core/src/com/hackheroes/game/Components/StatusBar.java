@@ -156,7 +156,11 @@ public class StatusBar {
         else targetValue += amount;
     }
 
-    public float getValue() {
-        return value;
+    public float getValue(boolean current) {
+        return current ? value : targetValue;
+    }
+
+    public float getMaxValue() {
+        return maxValue;
     }
 }

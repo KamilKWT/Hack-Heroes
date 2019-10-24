@@ -3,9 +3,12 @@ package com.hackheroes.game.Tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.hackheroes.game.MainClass;
+import com.hackheroes.game.Screens.EndScreen;
 import com.hackheroes.game.Screens.GameScreen;
 import com.hackheroes.game.Screens.HelpScreen;
+import com.hackheroes.game.Screens.HighscoresScreen;
 import com.hackheroes.game.Screens.MenuScreen;
+import com.hackheroes.game.Screens.ResultsScreen;
 
 public class InputController implements InputProcessor {
 
@@ -49,6 +52,15 @@ public class InputController implements InputProcessor {
 
         } else if (game.getScreen() instanceof GameScreen) {
             game.gameScreen.isClicked(touchX, touchY);
+
+        } else if (game.getScreen() instanceof EndScreen) {
+            game.endScreen.isClicked(touchX, touchY);
+
+        } else if (game.getScreen() instanceof ResultsScreen) {
+            game.resultsScreen.isClicked(touchX, touchY);
+
+        } else if (game.getScreen() instanceof HighscoresScreen) {
+            game.highscoresScreen.isClicked(touchX, touchY);
         }
 
         return false;

@@ -10,9 +10,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.hackheroes.game.Screens.EndScreen;
 import com.hackheroes.game.Screens.GameScreen;
 import com.hackheroes.game.Screens.HelpScreen;
+import com.hackheroes.game.Screens.HighscoresScreen;
 import com.hackheroes.game.Screens.MenuScreen;
+import com.hackheroes.game.Screens.ResultsScreen;
 import com.hackheroes.game.Tools.AssetsLoader;
 import com.hackheroes.game.Tools.InputController;
 import com.hackheroes.game.Tools.MyShapeRenderer;
@@ -20,9 +23,9 @@ import com.hackheroes.game.Tools.QuestionsLoader;
 
 public class MainClass extends Game {
 
+    public static final String PREFERENCES_NAME = "SaveYourWorldPreferences";
     public static final int V_WIDTH = 720;
     public static final int V_HEIGHT = 1280;
-    public static final Color GAME_BACKGROUND_COLOR = new Color(0x545657ff);
     public static final Color GUI_BORDER_COLOR = new Color(0x282828ff);
     public static final Color GUI_MARKED_COLOR = new Color(0x313335ff);
     public static final Color GUI_BACKGROUND_COLOR = new Color(0x3c3f41ff);
@@ -45,6 +48,9 @@ public class MainClass extends Game {
     public MenuScreen menuScreen;
     public HelpScreen helpScreen;
     public GameScreen gameScreen;
+    public EndScreen endScreen;
+    public ResultsScreen resultsScreen;
+    public HighscoresScreen highscoresScreen;
 
     @Override
     public void create() {
@@ -63,6 +69,9 @@ public class MainClass extends Game {
         menuScreen = new MenuScreen(this);
         helpScreen = new HelpScreen(this);
         gameScreen = new GameScreen(this);
+        endScreen = new EndScreen(this);
+        resultsScreen = new ResultsScreen(this);
+        highscoresScreen = new HighscoresScreen(this);
 
         this.setScreen(menuScreen);
     }
@@ -74,7 +83,7 @@ public class MainClass extends Game {
 
         gameShapeRenderer.setProjectionMatrix(gameCamera.combined);
         gameShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        gameShapeRenderer.setColor(GAME_BACKGROUND_COLOR);
+        gameShapeRenderer.setColor(new Color(0x545657ff));
         gameShapeRenderer.rect(0, 0, V_WIDTH, V_HEIGHT);
         gameShapeRenderer.end();
 

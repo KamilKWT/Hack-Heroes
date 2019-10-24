@@ -24,4 +24,6 @@ abstract class AbstractScreen implements Screen {
 
     @Override
     public void dispose() {}
+
+    public void isClicked(int touchX, int touchY) {}
 }

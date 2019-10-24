@@ -131,6 +131,7 @@ public class IndicatorsInfo {
 
     public Map<String, StatusBar> indicators = new TreeMap<>();
     public int money;
+    public int score;
     private Stage stage;
     private Button button;
     private int xPos, yPos, width, height;
@@ -182,8 +183,9 @@ public class IndicatorsInfo {
         game.gameBatch.setProjectionMatrix(game.gameCamera.combined);
         game.gameBatch.begin();
         game.gameBatch.draw(game.assetsLoader.findTexture("money"), 395, 1220, 50, 50);
-        game.gameFont.getData().setScale(0.75f);
+        game.gameFont.getData().setScale(0.625f);
         game.gameFont.draw(game.gameBatch, "" + money, 490, 1265);
+        game.gameFont.draw(game.gameBatch, "Punkty: " + score, 160, 1105, 490, 1, false);
         game.gameBatch.end();
 
         stage.draw();
