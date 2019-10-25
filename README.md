@@ -48,6 +48,7 @@ Aktualna wersja gry jest prototypem docelowej aplikacji, z ograniczoną bazą py
 * dodać scenariusze gier np. "**Klęska głodu**", gdzie głównym celem będzie utrzymanie odpowiedniej ilości pożywienia
 * znaczne rozszerzenie bazy pytań, dodanie paczek pytań charakterystycznych dla wybranego scenariusza
 * dodać inne ciekawe funkcje urozmaicające rozgrywkę
+* udoskonalić grafikę oraz interfejs
 
 ## Narzędzia, które użyliśmy do stworzenia aplikacji:
 
