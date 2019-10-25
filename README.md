@@ -36,6 +36,9 @@ Więcej informacji o rozgrywce oraz tym jak grać znajdują się w aplikacji pod
 Aby móc uruchomić projekt musisz mieć zainstalowane na komputerze "**Środowisko uruchomieniowe Java 8**". Jeżeli nie posiadasz takowego odwiedź stronę: [https://www.java.com/pl/download/](https://www.java.com/pl/download/).
 
 ## Informacje dodatkowe:
+Gra wzorowana jest na popularnej grze mobilnej "**Lapse: A forgotten Future**".
+Tematyka gry została dostosowana tak, aby dotyczyła problemów globalnych.
+
 Kod całej gry znajduje się w lokalizacji: "**<główny_folder_projektu>\core\src\com\hackheroes\game**". Kod ten znajduje się w plikach z rozszerzeniem .java, które można otwierać dowolnym edytorem tekstu.
 
 Tekstury oraz inne zasoby aplikacji znajdują się w lokalizacji: "**<główny_folder_projektu>\android\assets**".
