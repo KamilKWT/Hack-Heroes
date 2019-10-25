@@ -4,20 +4,20 @@ W grze wcielasz się w głowę państwa i podejmujesz decyzje, które albo wynio
 Więcej informacji o rozgrywce oraz tym jak grać znajdują się w aplikacji pod przyciskiem "**Pomoc**".
 
 ## Jak pobrać projekt z githuba?
-### Na komputerze
+(*Na komputerze*)
 
 * Przejdź na stronę [https://github.com/Kwiatek10000/Hack-Heroes](https://github.com/Kwiatek10000/Hack-Heroes)
 * Naciśnij "**Clone or download**" i wybierz "**Download ZIP**" z rozwijanego okna
 * Wypakuj archiwum
 
 ## Instalacja i uruchomienie projektu na telefonie: 
-### Na komputerze
+(*Na komputerze*)
 
 * Otwórz główny folder projektu
 * Otwórz folder "**install**"
 * Skopiuj aplikacje "**SaveYourWorld.apk**" na swój telefon
 
-### Na telefonie
+(*Na telefonie*)
 
 * Upewnij się, że włączona jest opcja "**instalowanie aplikacji z nieznanych źródeł**" *(Wszystkie aplikacje spoza sklepu play traktowane są jako takowe)*
 * Uruchom skopiowany plik .apk
@@ -25,7 +25,7 @@ Więcej informacji o rozgrywce oraz tym jak grać znajdują się w aplikacji pod
 * Otwórz aplikację
 
 ## Uruchomienie projektu na komputerze:
-### Na komputerze
+(*Na komputerze*)
 
 * Otwórz główny folder projektu
 * Otwórz folder "**install**"
