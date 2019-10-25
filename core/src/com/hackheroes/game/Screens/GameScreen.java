@@ -114,14 +114,23 @@ public class GameScreen extends AbstractScreen {
 
         void isClicked(int touchX, int touchY) {
             if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
-                Gdx.app.log("" + activeQuestion.getOnAccept("money"), "" + (indicatorsInfo.money + activeQuestion.getOnAccept("money")));
-                Gdx.app.log("" + activeQuestion.getOnRefuse("money"), "" + (indicatorsInfo.money + activeQuestion.getOnRefuse("money")));
-                if (indicatorsInfo.money + activeQuestion.getOnAccept("money") < 0 && indicatorsInfo.money + activeQuestion.getOnRefuse("money") < 0) {
+                Gdx.app.log("" + ((activeQuestion.getOnAccept().keySet().contains("money")) ? (activeQuestion.getOnAccept("money")) : 0),
+                            "" + (indicatorsInfo.money + ((activeQuestion.getOnAccept().keySet().contains("money")) ? (activeQuestion.getOnAccept("money")) : 0))
+                );
+                Gdx.app.log("" + ((activeQuestion.getOnRefuse().keySet().contains("money")) ? (activeQuestion.getOnRefuse("money")) : 0),
+                            "" + (indicatorsInfo.money + ((activeQuestion.getOnRefuse().keySet().contains("money")) ? (activeQuestion.getOnRefuse("money")) : 0))
+                );
+
+                if (indicatorsInfo.money + ((activeQuestion.getOnAccept().keySet().contains("money")) ? (activeQuestion.getOnAccept("money")) : 0) < 0 &&
+                    indicatorsInfo.money + ((activeQuestion.getOnRefuse().keySet().contains("money")) ? (activeQuestion.getOnRefuse("money")) : 0) < 0) {
                     endReason = "money";
                     Gdx.app.log("ok", "ok");
                 }
-                Gdx.app.log("" + effects.get("money"), "" + (indicatorsInfo.money + effects.get("money")));
-                if (indicatorsInfo.money + effects.get("money") > 0) {
+
+                Gdx.app.log("" + ((effects.keySet().contains("money")) ? (effects.get("money")) : 0),
+                            "" + (indicatorsInfo.money + ((effects.keySet().contains("money")) ? (effects.get("money")) : 0)));
+
+                if (indicatorsInfo.money + ((effects.keySet().contains("money")) ? (effects.get("money")) : 0) > 0) {
                     for (String key : effects.keySet()) {
                         if (key.equals("money")) {
                             indicatorsInfo.money += effects.get(key);
@@ -216,7 +225,7 @@ public class GameScreen extends AbstractScreen {
 
         endReason = "";
 
-        indicatorsInfo.money = 5000;
+        indicatorsInfo.money = 100000 - (25000 * (difficulty - 1));
         indicatorsInfo.score = 0;
         for (StatusBar indicator : indicatorsInfo.indicators.values()) {
             indicator.setValue(50);
